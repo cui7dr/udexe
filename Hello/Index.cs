@@ -97,7 +97,9 @@ namespace Hello
             byte[] version = new byte[13];
             BluetoothConnection.Read(version, 0, 13);
             double[] avgnum = new double[1013];
-           // BluetoothConnection.Read(avgnum, 0.13);
+            List<double> avglist = new List<double>();
+            
+            // BluetoothConnection.Read(avgnum, 0.13);
 
             //上电校验
             if (version[0] == 255 && version[1] == 255 && version[2] == 255)
@@ -127,11 +129,11 @@ namespace Hello
                 int hour = Convert.ToInt32(time.Substring(8, 2));
                 int minute = Convert.ToInt32(time.Substring(10, 2));
                 int second = Convert.ToInt32(time.Substring(12, 2));
-                byte[] sendTime = new byte[] { add1, add2, 8, 0, 7, 20, 18, (byte)mou, (byte)day, (byte)hour, (byte)minute, (byte)second };
+                byte[] sendTime = new byte[] { add1, add2, 8, 0, 7, 20, (byte)year, (byte)mou, (byte)day, (byte)hour, (byte)minute, (byte)second };
                 byte sendVerCrc = CRC8(sendVer);
                 byte sendTimeCrc = CRC8(sendTime);
                 //校验CRC发送认证
-                if (com != 0)
+                if (com != 0&&crc8==crcnum)
                 {
                     BluetoothSendVer(new byte[] { 255, 255, 255, add1, add2, 4, len1, len2, type1, type2, vers1, vers2, sendVerCrc });
                     //Thread.Sleep(1000);
@@ -151,11 +153,13 @@ namespace Hello
                 MessageBox.Show("接收信息错误！\n请重新连接。。。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }*/
 
+            int j = 0;
             //显示波形
             for (int i = 0; i < 1013; i++)
             {
-                if (data[i] == 255 && data[i + 1] == 255 && data[i + 2] == 255)
+                if (i<980&&data[i] == 255 && data[i + 1] == 255 && data[i + 2] == 255)
                 {
+                    
                     if (data[i + 7] == 14)
                     {
                         int avg1 = data[i + 8];
@@ -167,7 +171,7 @@ namespace Hello
                         int hum1 = data[i + 16];
                         int hum2 = data[i + 17];
                         double avg = avg1 + (double)avg2 / 10;//平均值...
-
+                        
 
 
                         //图标类型：线
@@ -180,12 +184,8 @@ namespace Hello
                         //waveform.Legends[0].Enabled = false;// 隐藏图示(Series 标注)
 
 
-                        avgnum[i] = avg;
-                        //if (avgnum[i] == 0)
-                        //{
-                        //    avgnum[i] = avg1;
-                        //}
-
+                        //avgnum[i] = avg;
+                        
 
                         //显示最大值
                         this.labelMax.Text = max1.ToString() + "." + max2.ToString();
@@ -211,24 +211,43 @@ namespace Hello
                         }
                         this.labelTemp.Text = temp1.ToString() + "." + temp2.ToString() + "℃";//显示温度
                         this.labelHum.Text = hum1.ToString() + "." + hum2.ToString() + "%";//显示湿度
+                        
                     }
+                    do
+                    {
+                        if (j >= avgnum.Length)
+                            break;
+                        if (avgnum[j] != 0)
+                        {
+                            avglist.Add(avgnum[j]);
+                        }
+                        if (avglist.Count > 1000)
+                        {
+                            avglist.RemoveAt(0);
+                        }
+                        j++;
+                    } while (avglist.Count < 1013);
                     //图标类型：线
                     waveform.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
                     // 线的颜色为蓝色            
                     waveform.Series[0].Color = Color.Blue;
-                    waveform.Series[0].Points.AddY(avgnum[i]);
+
+                    for (int n = 0; n < avglist.Count; n++) {
+                        //MessageBox.Show(avgnum[i].ToString());
+                        waveform.Series[0].Points.AddY(avglist[i]);
+                    }
                     waveform.ChartAreas[0].AxisY.Maximum = 260;// Y轴最大值
                     waveform.ChartAreas[0].AxisX.Maximum = 1000;
                     waveform.Legends[0].Enabled = false;// 隐藏图示(Series 标注)
                 }
-                
-                if (data[i] == 0 && data[i + 1] == 0 && data[i + 2] == 0 && data[i + 3] == 0 && data[i + 4] == 0 || i == 999)
-                {
-                    waveform.Series[0].Points.Clear();
-                    // i = 0;
-                    data = new byte[1013];
-                    BluetoothConnection.Read(data, 0, 1013);
-                }
+
+                //if (i<1000&&data[i] == 0 && data[i + 1] == 0 && data[i + 2] == 0 && data[i + 3] == 0 && data[i + 4] == 0 || i == 900)
+                //{
+                //    waveform.Series[0].Points.Clear();
+                //    // i = 0;
+                //    data = new byte[1013];
+                //    BluetoothConnection.Read(data, 0, 1013);
+                //}
             }
         }
         #endregion
