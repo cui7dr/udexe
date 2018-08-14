@@ -58,7 +58,7 @@ namespace Hello
         //选择蓝牙设备(打开串口/按钮)
         private void link_Click(object sender, EventArgs e)
         {
-            
+
             SelectBluetoothDeviceDialog dialog = new SelectBluetoothDeviceDialog();
             //dialog.ShowRemembered = true;//显示已经记住的蓝牙设备
             dialog.ShowAuthenticated = true;//显示已经认证过的蓝牙设备
@@ -86,7 +86,7 @@ namespace Hello
         //蓝牙接收数据并显示波形
         public void BluetoothDataRecevied(object ebj, SerialDataReceivedEventArgs e)
         {
-            
+
             Thread.Sleep(1000);
             //int length = 1000;
             int length = BluetoothConnection.ReadByte();
@@ -98,7 +98,7 @@ namespace Hello
             BluetoothConnection.Read(version, 0, 13);
             double[] avgnum = new double[1013];
             List<double> avglist = new List<double>();
-            
+
             // BluetoothConnection.Read(avgnum, 0.13);
 
             //上电校验
@@ -133,7 +133,7 @@ namespace Hello
                 byte sendVerCrc = CRC8(sendVer);
                 byte sendTimeCrc = CRC8(sendTime);
                 //校验CRC发送认证
-                if (com != 0&&crc8==crcnum)
+                if (com != 0 && crc8 == crcnum)
                 {
                     BluetoothSendVer(new byte[] { 255, 255, 255, add1, add2, 4, len1, len2, type1, type2, vers1, vers2, sendVerCrc });
                     //Thread.Sleep(1000);
@@ -146,7 +146,7 @@ namespace Hello
                 {
                     MessageBox.Show("校验失败，请重新启动。。。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                
+
             }
             /*else if (version[0] != 255 && version[1] != 255 && version[2] != 255)
             {
@@ -157,9 +157,9 @@ namespace Hello
             //显示波形
             for (int i = 0; i < 1013; i++)
             {
-                if (i<980&&data[i] == 255 && data[i + 1] == 255 && data[i + 2] == 255)
+                if (i < 980 && data[i] == 255 && data[i + 1] == 255 && data[i + 2] == 255)
                 {
-                    
+
                     if (data[i + 7] == 14)
                     {
                         int avg1 = data[i + 8];
@@ -171,7 +171,7 @@ namespace Hello
                         int hum1 = data[i + 16];
                         int hum2 = data[i + 17];
                         double avg = avg1 + (double)avg2 / 10;//平均值...
-                        
+
 
 
                         //图标类型：线
@@ -185,7 +185,7 @@ namespace Hello
 
 
                         //avgnum[i] = avg;
-                        
+
 
                         //显示最大值
                         this.labelMax.Text = max1.ToString() + "." + max2.ToString();
@@ -200,7 +200,7 @@ namespace Hello
                         }
                         //显示平均值
                         this.labelAvg.Text = avg.ToString();
-                        if (avg < 70)   
+                        if (avg < 70)
                         {
                             this.labelAvg.ForeColor = Color.Green;
                         }
@@ -209,9 +209,9 @@ namespace Hello
                             this.labelAvg.ForeColor = Color.Red;
                             this.labelAvg.Font = new Font("宋体", 16);
                         }
-                        this.labelTemp.Text = temp1.ToString() + "." + temp2.ToString() + "℃";//显示温度
-                        this.labelHum.Text = hum1.ToString() + "." + hum2.ToString() + "%";//显示湿度
-                        
+                        this.labelTemp.Text = temp1.ToString() + "." + temp2.ToString();//显示温度
+                        this.labelHum.Text = hum1.ToString() + "." + hum2.ToString();//显示湿度
+
                     }
                     do
                     {
@@ -232,7 +232,8 @@ namespace Hello
                     // 线的颜色为蓝色            
                     waveform.Series[0].Color = Color.Blue;
 
-                    for (int n = 0; n < avglist.Count; n++) {
+                    for (int n = 0; n < avglist.Count; n++)
+                    {
                         //MessageBox.Show(avgnum[i].ToString());
                         waveform.Series[0].Points.AddY(avglist[i]);
                     }
@@ -271,7 +272,7 @@ namespace Hello
         {
             BluetoothConnection.Write(data, 0, 13);// 13表示发送字节数
         }
-        
+
         // 发送校时命令
         private void BluetoothSendTime(byte[] data)
         {
@@ -341,47 +342,57 @@ namespace Hello
             //length += BluetoothConnection.ReadByte() * 256;
             MessageBox.Show(length.ToString(), "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
             BluetoothReceviedData = DateTime.Now.ToLongDateString() + "\r\n";
-            int num = 0;
             int lennum = 100;
             byte[] content = new byte[lennum];
             if (content[0] == 255 && content[1] == 255 && content[2] == 255)
             {
                 byte len1 = content[6];
                 byte len2 = content[7];
-                int qian = len1 / 16;
-                int bai = len1 % 16;
-                int shi = len2 / 10;
-                int ge = len2 % 10;//124
-                if (len1 == 0)
+                if (len1 + len2 != 14)
                 {
-                    lennum = len2;
-                }
-                else if (len1 > 0 && len1 <= 15)
-                {
-                    lennum = len1 * 16 * 16 + shi * 16 + ge;
-                }
-                else if (len1 > 15)
-                {
-                    lennum = qian * 16 * 16 * 16 + bai * 16 * 16 + shi * 16 + ge;
+                    int qian = len1 / 16;
+                    int bai = len1 % 16;
+                    int shi = len2 / 10;
+                    int ge = len2 % 10;//124
+                    if (len1 == 0)
+                    {
+                        lennum = len2;
+                    }
+                    else if (len1 > 0 && len1 <= 15)
+                    {
+                        lennum = len1 * 16 * 16 + shi * 16 + ge;
+                    }
+                    else if (len1 > 15)
+                    {
+                        lennum = qian * 16 * 16 * 16 + bai * 16 * 16 + shi * 16 + ge;
+                    }
                 }
             }
+            
             byte[] data = new byte[lennum];
             BluetoothConnection.Read(data, 0, 1000);
             for (int i = 0; i < 1000; i++)
             {
-                num += data[i];
-                int arrayMax = 0;
-                for (int j = 0; j < data.Length; j++)
-                {
-                    arrayMax = arrayMax > data[j] ? arrayMax : data[j];
-                }
-                int max = arrayMax;
-                double avgDB = Math.Round(Convert.ToDouble(num), 2);
+
             }
-            string str = num.ToString();
+            double maxDB = Convert.ToDouble(labelMax.ToString());
+            double avgDB = Convert.ToDouble(labelAvg.ToString());
+            double temp = Convert.ToDouble(labelTemp.ToString());
+            double hum = Convert.ToDouble(labelHum.ToString());
+            if (labelLong.Text == "0" && labelLat.Text == "0")
+            {
+                GeoCoordinateWatcher watcher = new GeoCoordinateWatcher();
+                watcher.TryStart(false, TimeSpan.FromMilliseconds(5000));
+                GeoCoordinate coordinate = watcher.Position.Location;
+                if (coordinate.IsUnknown != true)
+                {
+                    this.labelLong.Text = coordinate.Longitude.ToString();
+                    this.labelLat.Text = coordinate.Latitude.ToString();
+                }
+            }
             string config = ConfigurationManager.ConnectionStrings["udpc"].ConnectionString;
             SqlConnection conn = new SqlConnection(config);
-            string sql = "inssert into [dbo].[Datas] (detectTime, maxDB, avgDB, datas) values (@detectTime, @maxDB, @avgDB, @datas)";
+            string sql = "inssert into [dbo].[Datas] (detectTime, frequency, temperature, humidity, longitude, latitude, maxDB, avgDB, datas) values (@detectTime, @frequency, @temperature, @humidity, @longitude, @latitude, @maxDB, @avgDB, @datas)";
             SqlDataAdapter adapter = new SqlDataAdapter(sql, conn);
             SqlCommandBuilder cmdb = new SqlCommandBuilder(adapter);
             DataSet ds = new DataSet();

@@ -39,27 +39,6 @@ namespace Hello
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Edit));
             this.dataTable = new System.Windows.Forms.GroupBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.dataIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.detectTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.inspectorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lineNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.towerNumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.deviceTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.deviceStateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.frequencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.distanceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.temperatureDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.humidityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.longitudeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.latitudeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.maxDBDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.avgDBDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.numPicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.overallPicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.partialPicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.defectDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.datasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.audioDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.datasBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.udpcDataSet1 = new Hello.udpcDataSet1();
             this.detailEdit = new System.Windows.Forms.GroupBox();
@@ -107,6 +86,27 @@ namespace Hello
             this.print = new System.Windows.Forms.Button();
             this.datasTableAdapter = new Hello.udpcDataSet1TableAdapters.DatasTableAdapter();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.dataIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.detectTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.inspectorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lineNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.towerNumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deviceTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.deviceStateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.frequencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.distanceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.temperatureDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.humidityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.longitudeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.latitudeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.maxDBDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.avgDBDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.numPicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.overallPicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.partialPicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.defectDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.datasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.audioDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.datasBindingSource)).BeginInit();
@@ -167,153 +167,6 @@ namespace Hello
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(1164, 184);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // dataIdDataGridViewTextBoxColumn
-            // 
-            this.dataIdDataGridViewTextBoxColumn.DataPropertyName = "dataId";
-            this.dataIdDataGridViewTextBoxColumn.HeaderText = "编号";
-            this.dataIdDataGridViewTextBoxColumn.Name = "dataIdDataGridViewTextBoxColumn";
-            this.dataIdDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // detectTimeDataGridViewTextBoxColumn
-            // 
-            this.detectTimeDataGridViewTextBoxColumn.DataPropertyName = "detectTime";
-            this.detectTimeDataGridViewTextBoxColumn.HeaderText = "检测时间";
-            this.detectTimeDataGridViewTextBoxColumn.Name = "detectTimeDataGridViewTextBoxColumn";
-            this.detectTimeDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // inspectorDataGridViewTextBoxColumn
-            // 
-            this.inspectorDataGridViewTextBoxColumn.DataPropertyName = "inspector";
-            this.inspectorDataGridViewTextBoxColumn.HeaderText = "检测员";
-            this.inspectorDataGridViewTextBoxColumn.Name = "inspectorDataGridViewTextBoxColumn";
-            this.inspectorDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // lineNameDataGridViewTextBoxColumn
-            // 
-            this.lineNameDataGridViewTextBoxColumn.DataPropertyName = "lineName";
-            this.lineNameDataGridViewTextBoxColumn.HeaderText = "线路名称";
-            this.lineNameDataGridViewTextBoxColumn.Name = "lineNameDataGridViewTextBoxColumn";
-            this.lineNameDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // towerNumDataGridViewTextBoxColumn
-            // 
-            this.towerNumDataGridViewTextBoxColumn.DataPropertyName = "towerNum";
-            this.towerNumDataGridViewTextBoxColumn.HeaderText = "杆塔编号";
-            this.towerNumDataGridViewTextBoxColumn.Name = "towerNumDataGridViewTextBoxColumn";
-            this.towerNumDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // deviceTypeDataGridViewTextBoxColumn
-            // 
-            this.deviceTypeDataGridViewTextBoxColumn.DataPropertyName = "deviceType";
-            this.deviceTypeDataGridViewTextBoxColumn.HeaderText = "设备类型";
-            this.deviceTypeDataGridViewTextBoxColumn.Name = "deviceTypeDataGridViewTextBoxColumn";
-            this.deviceTypeDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // deviceStateDataGridViewTextBoxColumn
-            // 
-            this.deviceStateDataGridViewTextBoxColumn.DataPropertyName = "deviceState";
-            this.deviceStateDataGridViewTextBoxColumn.HeaderText = "设备状态";
-            this.deviceStateDataGridViewTextBoxColumn.Name = "deviceStateDataGridViewTextBoxColumn";
-            this.deviceStateDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // frequencyDataGridViewTextBoxColumn
-            // 
-            this.frequencyDataGridViewTextBoxColumn.DataPropertyName = "frequency";
-            this.frequencyDataGridViewTextBoxColumn.HeaderText = "频率";
-            this.frequencyDataGridViewTextBoxColumn.Name = "frequencyDataGridViewTextBoxColumn";
-            this.frequencyDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // distanceDataGridViewTextBoxColumn
-            // 
-            this.distanceDataGridViewTextBoxColumn.DataPropertyName = "distance";
-            this.distanceDataGridViewTextBoxColumn.HeaderText = "检测距离";
-            this.distanceDataGridViewTextBoxColumn.Name = "distanceDataGridViewTextBoxColumn";
-            this.distanceDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // temperatureDataGridViewTextBoxColumn
-            // 
-            this.temperatureDataGridViewTextBoxColumn.DataPropertyName = "temperature";
-            this.temperatureDataGridViewTextBoxColumn.HeaderText = "温度";
-            this.temperatureDataGridViewTextBoxColumn.Name = "temperatureDataGridViewTextBoxColumn";
-            this.temperatureDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // humidityDataGridViewTextBoxColumn
-            // 
-            this.humidityDataGridViewTextBoxColumn.DataPropertyName = "humidity";
-            this.humidityDataGridViewTextBoxColumn.HeaderText = "湿度";
-            this.humidityDataGridViewTextBoxColumn.Name = "humidityDataGridViewTextBoxColumn";
-            this.humidityDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // longitudeDataGridViewTextBoxColumn
-            // 
-            this.longitudeDataGridViewTextBoxColumn.DataPropertyName = "longitude";
-            this.longitudeDataGridViewTextBoxColumn.HeaderText = "经度";
-            this.longitudeDataGridViewTextBoxColumn.Name = "longitudeDataGridViewTextBoxColumn";
-            this.longitudeDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // latitudeDataGridViewTextBoxColumn
-            // 
-            this.latitudeDataGridViewTextBoxColumn.DataPropertyName = "latitude";
-            this.latitudeDataGridViewTextBoxColumn.HeaderText = "纬度";
-            this.latitudeDataGridViewTextBoxColumn.Name = "latitudeDataGridViewTextBoxColumn";
-            this.latitudeDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // maxDBDataGridViewTextBoxColumn
-            // 
-            this.maxDBDataGridViewTextBoxColumn.DataPropertyName = "maxDB";
-            this.maxDBDataGridViewTextBoxColumn.HeaderText = "最大值";
-            this.maxDBDataGridViewTextBoxColumn.Name = "maxDBDataGridViewTextBoxColumn";
-            this.maxDBDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // avgDBDataGridViewTextBoxColumn
-            // 
-            this.avgDBDataGridViewTextBoxColumn.DataPropertyName = "avgDB";
-            this.avgDBDataGridViewTextBoxColumn.HeaderText = "平均值";
-            this.avgDBDataGridViewTextBoxColumn.Name = "avgDBDataGridViewTextBoxColumn";
-            this.avgDBDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // numPicDataGridViewTextBoxColumn
-            // 
-            this.numPicDataGridViewTextBoxColumn.DataPropertyName = "numPic";
-            this.numPicDataGridViewTextBoxColumn.HeaderText = "杆塔编号照片";
-            this.numPicDataGridViewTextBoxColumn.Name = "numPicDataGridViewTextBoxColumn";
-            this.numPicDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // overallPicDataGridViewTextBoxColumn
-            // 
-            this.overallPicDataGridViewTextBoxColumn.DataPropertyName = "overallPic";
-            this.overallPicDataGridViewTextBoxColumn.HeaderText = "杆塔全景照片";
-            this.overallPicDataGridViewTextBoxColumn.Name = "overallPicDataGridViewTextBoxColumn";
-            this.overallPicDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // partialPicDataGridViewTextBoxColumn
-            // 
-            this.partialPicDataGridViewTextBoxColumn.DataPropertyName = "partialPic";
-            this.partialPicDataGridViewTextBoxColumn.HeaderText = "缺陷局部照片";
-            this.partialPicDataGridViewTextBoxColumn.Name = "partialPicDataGridViewTextBoxColumn";
-            this.partialPicDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // defectDataGridViewTextBoxColumn
-            // 
-            this.defectDataGridViewTextBoxColumn.DataPropertyName = "defect";
-            this.defectDataGridViewTextBoxColumn.HeaderText = "缺陷程度";
-            this.defectDataGridViewTextBoxColumn.Name = "defectDataGridViewTextBoxColumn";
-            this.defectDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // datasDataGridViewTextBoxColumn
-            // 
-            this.datasDataGridViewTextBoxColumn.DataPropertyName = "datas";
-            this.datasDataGridViewTextBoxColumn.HeaderText = "数据";
-            this.datasDataGridViewTextBoxColumn.Name = "datasDataGridViewTextBoxColumn";
-            this.datasDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // audioDataGridViewTextBoxColumn
-            // 
-            this.audioDataGridViewTextBoxColumn.DataPropertyName = "audio";
-            this.audioDataGridViewTextBoxColumn.HeaderText = "音频";
-            this.audioDataGridViewTextBoxColumn.Name = "audioDataGridViewTextBoxColumn";
-            this.audioDataGridViewTextBoxColumn.ReadOnly = true;
             // 
             // datasBindingSource
             // 
@@ -838,6 +691,171 @@ namespace Hello
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // dataIdDataGridViewTextBoxColumn
+            // 
+            this.dataIdDataGridViewTextBoxColumn.DataPropertyName = "dataId";
+            this.dataIdDataGridViewTextBoxColumn.HeaderText = "编号";
+            this.dataIdDataGridViewTextBoxColumn.Name = "dataIdDataGridViewTextBoxColumn";
+            this.dataIdDataGridViewTextBoxColumn.ReadOnly = true;
+            this.dataIdDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // detectTimeDataGridViewTextBoxColumn
+            // 
+            this.detectTimeDataGridViewTextBoxColumn.DataPropertyName = "detectTime";
+            this.detectTimeDataGridViewTextBoxColumn.HeaderText = "检测时间";
+            this.detectTimeDataGridViewTextBoxColumn.Name = "detectTimeDataGridViewTextBoxColumn";
+            this.detectTimeDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // inspectorDataGridViewTextBoxColumn
+            // 
+            this.inspectorDataGridViewTextBoxColumn.DataPropertyName = "inspector";
+            this.inspectorDataGridViewTextBoxColumn.HeaderText = "检测员";
+            this.inspectorDataGridViewTextBoxColumn.Name = "inspectorDataGridViewTextBoxColumn";
+            this.inspectorDataGridViewTextBoxColumn.ReadOnly = true;
+            this.inspectorDataGridViewTextBoxColumn.Width = 75;
+            // 
+            // lineNameDataGridViewTextBoxColumn
+            // 
+            this.lineNameDataGridViewTextBoxColumn.DataPropertyName = "lineName";
+            this.lineNameDataGridViewTextBoxColumn.HeaderText = "线路名称";
+            this.lineNameDataGridViewTextBoxColumn.Name = "lineNameDataGridViewTextBoxColumn";
+            this.lineNameDataGridViewTextBoxColumn.ReadOnly = true;
+            this.lineNameDataGridViewTextBoxColumn.Width = 90;
+            // 
+            // towerNumDataGridViewTextBoxColumn
+            // 
+            this.towerNumDataGridViewTextBoxColumn.DataPropertyName = "towerNum";
+            this.towerNumDataGridViewTextBoxColumn.HeaderText = "杆塔编号";
+            this.towerNumDataGridViewTextBoxColumn.Name = "towerNumDataGridViewTextBoxColumn";
+            this.towerNumDataGridViewTextBoxColumn.ReadOnly = true;
+            this.towerNumDataGridViewTextBoxColumn.Width = 90;
+            // 
+            // deviceTypeDataGridViewTextBoxColumn
+            // 
+            this.deviceTypeDataGridViewTextBoxColumn.DataPropertyName = "deviceType";
+            this.deviceTypeDataGridViewTextBoxColumn.HeaderText = "设备类型";
+            this.deviceTypeDataGridViewTextBoxColumn.Name = "deviceTypeDataGridViewTextBoxColumn";
+            this.deviceTypeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.deviceTypeDataGridViewTextBoxColumn.Width = 90;
+            // 
+            // deviceStateDataGridViewTextBoxColumn
+            // 
+            this.deviceStateDataGridViewTextBoxColumn.DataPropertyName = "deviceState";
+            this.deviceStateDataGridViewTextBoxColumn.HeaderText = "设备状态";
+            this.deviceStateDataGridViewTextBoxColumn.Name = "deviceStateDataGridViewTextBoxColumn";
+            this.deviceStateDataGridViewTextBoxColumn.ReadOnly = true;
+            this.deviceStateDataGridViewTextBoxColumn.Width = 90;
+            // 
+            // frequencyDataGridViewTextBoxColumn
+            // 
+            this.frequencyDataGridViewTextBoxColumn.DataPropertyName = "frequency";
+            this.frequencyDataGridViewTextBoxColumn.HeaderText = "频率";
+            this.frequencyDataGridViewTextBoxColumn.Name = "frequencyDataGridViewTextBoxColumn";
+            this.frequencyDataGridViewTextBoxColumn.ReadOnly = true;
+            this.frequencyDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // distanceDataGridViewTextBoxColumn
+            // 
+            this.distanceDataGridViewTextBoxColumn.DataPropertyName = "distance";
+            this.distanceDataGridViewTextBoxColumn.HeaderText = "距离";
+            this.distanceDataGridViewTextBoxColumn.Name = "distanceDataGridViewTextBoxColumn";
+            this.distanceDataGridViewTextBoxColumn.ReadOnly = true;
+            this.distanceDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // temperatureDataGridViewTextBoxColumn
+            // 
+            this.temperatureDataGridViewTextBoxColumn.DataPropertyName = "temperature";
+            this.temperatureDataGridViewTextBoxColumn.HeaderText = "温度";
+            this.temperatureDataGridViewTextBoxColumn.Name = "temperatureDataGridViewTextBoxColumn";
+            this.temperatureDataGridViewTextBoxColumn.ReadOnly = true;
+            this.temperatureDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // humidityDataGridViewTextBoxColumn
+            // 
+            this.humidityDataGridViewTextBoxColumn.DataPropertyName = "humidity";
+            this.humidityDataGridViewTextBoxColumn.HeaderText = "湿度";
+            this.humidityDataGridViewTextBoxColumn.Name = "humidityDataGridViewTextBoxColumn";
+            this.humidityDataGridViewTextBoxColumn.ReadOnly = true;
+            this.humidityDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // longitudeDataGridViewTextBoxColumn
+            // 
+            this.longitudeDataGridViewTextBoxColumn.DataPropertyName = "longitude";
+            this.longitudeDataGridViewTextBoxColumn.HeaderText = "经度";
+            this.longitudeDataGridViewTextBoxColumn.Name = "longitudeDataGridViewTextBoxColumn";
+            this.longitudeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.longitudeDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // latitudeDataGridViewTextBoxColumn
+            // 
+            this.latitudeDataGridViewTextBoxColumn.DataPropertyName = "latitude";
+            this.latitudeDataGridViewTextBoxColumn.HeaderText = "纬度";
+            this.latitudeDataGridViewTextBoxColumn.Name = "latitudeDataGridViewTextBoxColumn";
+            this.latitudeDataGridViewTextBoxColumn.ReadOnly = true;
+            this.latitudeDataGridViewTextBoxColumn.Width = 60;
+            // 
+            // maxDBDataGridViewTextBoxColumn
+            // 
+            this.maxDBDataGridViewTextBoxColumn.DataPropertyName = "maxDB";
+            this.maxDBDataGridViewTextBoxColumn.HeaderText = "最大值";
+            this.maxDBDataGridViewTextBoxColumn.Name = "maxDBDataGridViewTextBoxColumn";
+            this.maxDBDataGridViewTextBoxColumn.ReadOnly = true;
+            this.maxDBDataGridViewTextBoxColumn.Width = 75;
+            // 
+            // avgDBDataGridViewTextBoxColumn
+            // 
+            this.avgDBDataGridViewTextBoxColumn.DataPropertyName = "avgDB";
+            this.avgDBDataGridViewTextBoxColumn.HeaderText = "平均值";
+            this.avgDBDataGridViewTextBoxColumn.Name = "avgDBDataGridViewTextBoxColumn";
+            this.avgDBDataGridViewTextBoxColumn.ReadOnly = true;
+            this.avgDBDataGridViewTextBoxColumn.Width = 75;
+            // 
+            // numPicDataGridViewTextBoxColumn
+            // 
+            this.numPicDataGridViewTextBoxColumn.DataPropertyName = "numPic";
+            this.numPicDataGridViewTextBoxColumn.HeaderText = "杆塔编号照片";
+            this.numPicDataGridViewTextBoxColumn.Name = "numPicDataGridViewTextBoxColumn";
+            this.numPicDataGridViewTextBoxColumn.ReadOnly = true;
+            this.numPicDataGridViewTextBoxColumn.Width = 115;
+            // 
+            // overallPicDataGridViewTextBoxColumn
+            // 
+            this.overallPicDataGridViewTextBoxColumn.DataPropertyName = "overallPic";
+            this.overallPicDataGridViewTextBoxColumn.HeaderText = "杆塔全景照片";
+            this.overallPicDataGridViewTextBoxColumn.Name = "overallPicDataGridViewTextBoxColumn";
+            this.overallPicDataGridViewTextBoxColumn.ReadOnly = true;
+            this.overallPicDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // partialPicDataGridViewTextBoxColumn
+            // 
+            this.partialPicDataGridViewTextBoxColumn.DataPropertyName = "partialPic";
+            this.partialPicDataGridViewTextBoxColumn.HeaderText = "缺陷局部照片";
+            this.partialPicDataGridViewTextBoxColumn.Name = "partialPicDataGridViewTextBoxColumn";
+            this.partialPicDataGridViewTextBoxColumn.ReadOnly = true;
+            this.partialPicDataGridViewTextBoxColumn.Width = 120;
+            // 
+            // defectDataGridViewTextBoxColumn
+            // 
+            this.defectDataGridViewTextBoxColumn.DataPropertyName = "defect";
+            this.defectDataGridViewTextBoxColumn.HeaderText = "缺陷程度";
+            this.defectDataGridViewTextBoxColumn.Name = "defectDataGridViewTextBoxColumn";
+            this.defectDataGridViewTextBoxColumn.ReadOnly = true;
+            this.defectDataGridViewTextBoxColumn.Width = 90;
+            // 
+            // datasDataGridViewTextBoxColumn
+            // 
+            this.datasDataGridViewTextBoxColumn.DataPropertyName = "datas";
+            this.datasDataGridViewTextBoxColumn.HeaderText = "数据";
+            this.datasDataGridViewTextBoxColumn.Name = "datasDataGridViewTextBoxColumn";
+            this.datasDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
+            // audioDataGridViewTextBoxColumn
+            // 
+            this.audioDataGridViewTextBoxColumn.DataPropertyName = "audio";
+            this.audioDataGridViewTextBoxColumn.HeaderText = "音频";
+            this.audioDataGridViewTextBoxColumn.Name = "audioDataGridViewTextBoxColumn";
+            this.audioDataGridViewTextBoxColumn.ReadOnly = true;
+            // 
             // Edit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -917,6 +935,7 @@ namespace Hello
         private udpcDataSet1 udpcDataSet1;
         private BindingSource datasBindingSource;
         private udpcDataSet1TableAdapters.DatasTableAdapter datasTableAdapter;
+        private OpenFileDialog openFileDialog1;
         private DataGridViewTextBoxColumn dataIdDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn detectTimeDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn inspectorDataGridViewTextBoxColumn;
@@ -938,6 +957,5 @@ namespace Hello
         private DataGridViewTextBoxColumn defectDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn datasDataGridViewTextBoxColumn;
         private DataGridViewTextBoxColumn audioDataGridViewTextBoxColumn;
-        private OpenFileDialog openFileDialog1;
     }
 }

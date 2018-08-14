@@ -28,10 +28,6 @@ namespace Hello
         //加载
         public void Edit_Load(object sender, EventArgs e)
         {
-            // TODO: 这行代码将数据加载到表“udpcDataSet1.Datas”中。您可以根据需要移动或删除它。
-            //this.datasTableAdapter.Fill(this.udpcDataSet1.Datas);
-            // TODO: 这行代码将数据加载到表“udpcDataSet1.Datas”中。您可以根据需要移动或删除它。
-            //this.datasTableAdapter1.Fill(this.udpcDataSet1.Datas);
 
             string connStr = ConfigurationManager.ConnectionStrings["udpc"].ConnectionString;
             //建立连接
@@ -177,8 +173,17 @@ namespace Hello
             Microsoft.Office.Interop.Word._Application word = new Microsoft.Office.Interop.Word.Application();
             word.Visible = false;
 
-            // 绝对路径 ------------------------ 需要改为相对路径
-            object template = @"D:\space\udexe\Hello\Hello\Files\template\template.dotx";
+            //Application.StartupPath -- 获取到 .exe 所在 debug 路径
+            object template = System.Windows.Forms.Application.StartupPath+@"\template\template.dotx";
+
+            object linkToFile = false;// 定义该插入图片是否为外部链接
+            object saveWithDocument = true;// 定义插入图片是否随 word 文档一起保存
+            string numName = "编号" + ".png";
+            string replaceNumPic = System.Windows.Forms.Application.StartupPath + @"\images\" + numName;
+            string overallName =  "整体" + ".png";
+            string replaceOverallPic = System.Windows.Forms.Application.StartupPath + @"\images\" + overallName;
+            string partialName = "缺陷" + ".png";
+            string replacePartialPic = System.Windows.Forms.Application.StartupPath + @"\images\" + partialName;
 
             Microsoft.Office.Interop.Word._Document docx = word.Documents.Add(ref template, ref missing, ref missing, ref missing);
             object[] bookmarks = new object[17];
@@ -215,12 +220,32 @@ namespace Hello
                 docx.Bookmarks.get_Item(ref bookmarks[11]).Range.Text = reader["latitude"].ToString();
                 docx.Bookmarks.get_Item(ref bookmarks[12]).Range.Text = reader["maxDB"].ToString();
                 docx.Bookmarks.get_Item(ref bookmarks[13]).Range.Text = reader["avgDB"].ToString();
-                docx.Bookmarks.get_Item(ref bookmarks[14]).Range.Text = reader["numPic"].ToString();
-                docx.Bookmarks.get_Item(ref bookmarks[15]).Range.Text = reader["overallPic"].ToString();
-                docx.Bookmarks.get_Item(ref bookmarks[16]).Range.Text = reader["partialPic"].ToString();
+                //docx.Bookmarks.get_Item(ref bookmarks[14]).Range.Text = reader["numPic"].ToString();
+                //docx.Bookmarks.get_Item(ref bookmarks[15]).Range.Text = reader["overallPic"].ToString();
+                //docx.Bookmarks.get_Item(ref bookmarks[16]).Range.Text = reader["partialPic"].ToString();
+
+                object numPicMark = bookmarks[14].ToString();// 杆塔编号照片书签
+                docx.Bookmarks.get_Item(ref numPicMark).Select();// 查找图片书签
+                word.Selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;// 设置图片居中
+                InlineShape numShape = word.Selection.InlineShapes.AddPicture(replaceNumPic, ref linkToFile, ref saveWithDocument, ref missing);// 在书签位置添加图片
+                numShape.Height = 240;
+                numShape.Width = 240;
+                object overallPicMark = bookmarks[15].ToString();// 整体照片书签
+                docx.Bookmarks.get_Item(ref numPicMark).Select();// 查找图片书签
+                word.Selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;// 设置图片居中
+                InlineShape overallShape = word.Selection.InlineShapes.AddPicture(replaceOverallPic, ref linkToFile, ref saveWithDocument, ref missing);// 在书签位置添加图片
+                overallShape.Height = 240;
+                overallShape.Width = 240;
+                object partialPicMark = bookmarks[16].ToString();// 杆塔编号照片书签
+                docx.Bookmarks.get_Item(ref numPicMark).Select();// 查找图片书签
+                word.Selection.ParagraphFormat.Alignment = WdParagraphAlignment.wdAlignParagraphCenter;// 设置图片居中
+                InlineShape partialShape = word.Selection.InlineShapes.AddPicture(replacePartialPic, ref linkToFile, ref saveWithDocument, ref missing);// 在书签位置添加图片
+                partialShape.Height = 240;
+                partialShape.Width = 240;
             }
 
             SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName= DateTime.Now.ToString("yyyyMMddHHmmss");
             sfd.Filter = "Word 文档(*.docx)|*.docx|Word 97-2003 文档(*.doc)|(*.doc)";
             sfd.DefaultExt= "Word 文档(*.docx)|*.docx|Word 97-2003 文档(*.doc)|(*.doc)";
             if (sfd.ShowDialog() == DialogResult.OK)
@@ -241,8 +266,8 @@ namespace Hello
             if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fileName = openFileDialog1.FileName;
-                string fileRename = DateTime.Now.ToString("yyyyMMddHHmmss") + "杆塔编号" + Path.GetExtension(openFileDialog1.FileName);
-                string localPath = @"..\..\File\Image\" + fileRename;
+                string fileRename = "编号" + Path.GetExtension(openFileDialog1.FileName);
+                string localPath = System.Windows.Forms.Application.StartupPath + @"\images\" + fileRename;
                 File.Copy(fileName, localPath);
                 this.txtNumPic.Text = localPath;
 
@@ -269,8 +294,8 @@ namespace Hello
             if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fileName = openFileDialog1.FileName;
-                string fileRename = DateTime.Now.ToString("yyyyMMddHHmmss") + "杆塔全景" + Path.GetExtension(openFileDialog1.FileName);
-                string localPath = @"..\..\File\Image\" + fileRename;
+                string fileRename =  "整体" + Path.GetExtension(openFileDialog1.FileName);
+                string localPath = System.Windows.Forms.Application.StartupPath + @"\images\" + fileRename;
                 File.Copy(fileName, localPath);
                 this.txtNumPic.Text = localPath;
 
@@ -297,8 +322,8 @@ namespace Hello
             if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fileName = openFileDialog1.FileName;
-                string fileRename = DateTime.Now.ToString("yyyyMMddHHmmss") + "缺陷局部" + Path.GetExtension(openFileDialog1.FileName);
-                string localPath = @"..\..\File\Image\" + fileRename;
+                string fileRename =  "缺陷" + Path.GetExtension(openFileDialog1.FileName);
+                string localPath = System.Windows.Forms.Application.StartupPath + @"\images\" + fileRename;
                 File.Copy(fileName, localPath);
                 this.txtNumPic.Text = localPath;
 

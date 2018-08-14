@@ -168,11 +168,11 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelLong.AutoSize = true;
             this.labelLong.Font = new System.Drawing.Font("宋体", 16F);
-            this.labelLong.Location = new System.Drawing.Point(1064, 375);
+            this.labelLong.Location = new System.Drawing.Point(1117, 375);
             this.labelLong.Name = "labelLong";
-            this.labelLong.Size = new System.Drawing.Size(98, 22);
+            this.labelLong.Size = new System.Drawing.Size(21, 22);
             this.labelLong.TabIndex = 19;
-            this.labelLong.Text = "00.00000";
+            this.labelLong.Text = "0";
             // 
             // latitude
             // 
@@ -180,7 +180,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.latitude.AutoSize = true;
             this.latitude.Font = new System.Drawing.Font("宋体", 16F);
-            this.latitude.Location = new System.Drawing.Point(777, 375);
+            this.latitude.Location = new System.Drawing.Point(820, 375);
             this.latitude.Name = "latitude";
             this.latitude.Size = new System.Drawing.Size(76, 22);
             this.latitude.TabIndex = 21;
@@ -192,11 +192,11 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelLat.AutoSize = true;
             this.labelLat.Font = new System.Drawing.Font("宋体", 16F);
-            this.labelLat.Location = new System.Drawing.Point(854, 375);
+            this.labelLat.Location = new System.Drawing.Point(902, 375);
             this.labelLat.Name = "labelLat";
-            this.labelLat.Size = new System.Drawing.Size(109, 22);
+            this.labelLat.Size = new System.Drawing.Size(21, 22);
             this.labelLat.TabIndex = 19;
-            this.labelLat.Text = "000.00000";
+            this.labelLat.Text = "0";
             // 
             // longitude
             // 
@@ -204,7 +204,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.longitude.AutoSize = true;
             this.longitude.Font = new System.Drawing.Font("宋体", 16F);
-            this.longitude.Location = new System.Drawing.Point(987, 375);
+            this.longitude.Location = new System.Drawing.Point(1035, 375);
             this.longitude.Name = "longitude";
             this.longitude.Size = new System.Drawing.Size(76, 22);
             this.longitude.TabIndex = 21;
@@ -216,11 +216,11 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.temp.AutoSize = true;
             this.temp.Font = new System.Drawing.Font("宋体", 16F);
-            this.temp.Location = new System.Drawing.Point(420, 375);
+            this.temp.Location = new System.Drawing.Point(390, 375);
             this.temp.Name = "temp";
-            this.temp.Size = new System.Drawing.Size(76, 22);
+            this.temp.Size = new System.Drawing.Size(120, 22);
             this.temp.TabIndex = 19;
-            this.temp.Text = "温度：";
+            this.temp.Text = "温度(℃)：";
             // 
             // labelTemp
             // 
@@ -228,7 +228,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTemp.AutoSize = true;
             this.labelTemp.Font = new System.Drawing.Font("宋体", 16F);
-            this.labelTemp.Location = new System.Drawing.Point(497, 375);
+            this.labelTemp.Location = new System.Drawing.Point(516, 375);
             this.labelTemp.Name = "labelTemp";
             this.labelTemp.Size = new System.Drawing.Size(54, 22);
             this.labelTemp.TabIndex = 21;
@@ -240,11 +240,11 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.hum.AutoSize = true;
             this.hum.Font = new System.Drawing.Font("宋体", 16F);
-            this.hum.Location = new System.Drawing.Point(574, 375);
+            this.hum.Location = new System.Drawing.Point(597, 375);
             this.hum.Name = "hum";
-            this.hum.Size = new System.Drawing.Size(76, 22);
+            this.hum.Size = new System.Drawing.Size(109, 22);
             this.hum.TabIndex = 19;
-            this.hum.Text = "湿度：";
+            this.hum.Text = "湿度(%)：";
             // 
             // labelHum
             // 
@@ -252,11 +252,11 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelHum.AutoSize = true;
             this.labelHum.Font = new System.Drawing.Font("宋体", 16F);
-            this.labelHum.Location = new System.Drawing.Point(651, 375);
+            this.labelHum.Location = new System.Drawing.Point(712, 375);
             this.labelHum.Name = "labelHum";
-            this.labelHum.Size = new System.Drawing.Size(65, 22);
+            this.labelHum.Size = new System.Drawing.Size(54, 22);
             this.labelHum.TabIndex = 21;
-            this.labelHum.Text = "00.0%";
+            this.labelHum.Text = "00.0";
             // 
             // selectPorts
             // 
