@@ -97,7 +97,7 @@ namespace Hello
             this.waveform.Location = new System.Drawing.Point(8, 21);
             this.waveform.Name = "waveform";
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.waveform.Series.Add(series1);

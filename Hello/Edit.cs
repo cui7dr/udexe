@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -11,43 +11,74 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using Microsoft.Office.Interop.Word;
-using System.IO;
 
 namespace Hello
 {
     public partial class Edit : Form
     {
+
+        private SQLiteConnection conn = new SQLiteConnection("Data Source=" + System.Windows.Forms.Application.StartupPath + @"\test.db");
+        private SQLiteDataAdapter da = null;
+        DataSet ds = new DataSet();
+
+
         public Edit()
         {
             InitializeComponent();
             this.FormBorderStyle = FormBorderStyle.Sizable;// 显示任务栏
             this.WindowState = FormWindowState.Maximized;// 窗体最大化
+            txtID.ReadOnly = true;
+            if (txtID.Text.Length == 0)
+            {
+                updateNum.Enabled = false;
+                updateOverall.Enabled = false;
+                updatePartial.Enabled = false;
+            }
+            this.dataGridView1.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridView1.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+        }
+
+        private void RefreshData()
+        {
+            System.Data.DataTable dt = new System.Data.DataTable();
+            SQLiteDataAdapter sqlda = new SQLiteDataAdapter("select * from Datas;", conn);
+            DataSet ds = new DataSet();
+            sqlda.Fill(ds);
+            dt = ds.Tables[0];
+            dataGridView1.DataSource = dt;
         }
 
 
         //加载
         public void Edit_Load(object sender, EventArgs e)
         {
+            RefreshData();
+            dataGridView1.Columns[0].HeaderCell.Value = "编号";
+            dataGridView1.Columns[1].HeaderCell.Value = "检测时间";
+            dataGridView1.Columns[2].HeaderCell.Value = "检测员";
+            dataGridView1.Columns[3].HeaderCell.Value = "线路名称";
+            dataGridView1.Columns[4].HeaderCell.Value = "杆塔编号";
+            dataGridView1.Columns[5].HeaderCell.Value = "设备类型";
+            dataGridView1.Columns[6].HeaderCell.Value = "设备状态";
+            dataGridView1.Columns[7].HeaderCell.Value = "频率";
+            dataGridView1.Columns[8].HeaderCell.Value = "距离(m)";
+            dataGridView1.Columns[9].HeaderCell.Value = "温度";
+            dataGridView1.Columns[10].HeaderCell.Value = "湿度(%)";
+            dataGridView1.Columns[11].HeaderCell.Value = "经度";
+            dataGridView1.Columns[12].HeaderCell.Value = "纬度";
+            dataGridView1.Columns[13].HeaderCell.Value = "最大值";
+            dataGridView1.Columns[14].HeaderCell.Value = "平均值";
+            dataGridView1.Columns[15].HeaderCell.Value = "杆塔编号照片";
+            dataGridView1.Columns[16].HeaderCell.Value = "整体全景照片";
+            dataGridView1.Columns[17].HeaderCell.Value = "缺陷局部照片";
+            dataGridView1.Columns[18].HeaderCell.Value = "缺陷程度";
+            dataGridView1.Columns[19].HeaderCell.Value = "数据";
+            dataGridView1.Columns[20].HeaderCell.Value = "音频文件";
+            dataGridView1.Columns[21].Visible = false;
+            dataGridView1.Columns[22].Visible = false;
 
-            string connStr = ConfigurationManager.ConnectionStrings["udpc"].ConnectionString;
-            //建立连接
 
-            SqlConnection conn = new SqlConnection(connStr);//"Data Source = 127.0.0.1; Initial Catalog = udpc; User ID = sa; Password = 123456"
-            //创建适配器对象;
-            SqlDataAdapter adapter = new SqlDataAdapter("select * from Datas", conn);
-            //创建数据集
-            DataSet ds = new DataSet();
-            System.Data.DataTable dt = new System.Data.DataTable("Datas");//(+)
-            adapter.Fill(ds,"Datas");//(+)
-            dataGridView1.DataSource = ds.Tables["Datas"];
-            //使用适配器填充数据集
-            //adapter.Fill(ds, "Datas");
-            //设置 DataGridView 控件的数据源
-            //dataGridView1.DataSource = ds.Tables["Datas"];
-            //dataGridView1.DataSource = dt;//(+)
-            //this.datasTableAdapter.Fill(this.udpcDataSet1.Datas);
 
-            //dateTimePicker1.Value = DateTime.Now;
             comboBox1.Text = "柱式绝缘子";
             comboBox2.SelectedIndex = 4;
         }
@@ -57,22 +88,30 @@ namespace Hello
         public void dataView_Click(object sender,EventArgs e)
         {
             DataGridViewRow selectRow = dataGridView1.SelectedRows[0];
-            dateTimePicker1.Value = System.Convert.ToDateTime(selectRow.Cells[0].Value.ToString());
-            txtInspector.Text = System.Convert.ToString(selectRow.Cells[1].Value.ToString());
-            txtLineName.Text = System.Convert.ToString(selectRow.Cells[2].Value.ToString());
-            txtTowerNum.Text = System.Convert.ToString(selectRow.Cells[3].Value.ToString());
-            txtFrequency.Text = System.Convert.ToString(selectRow.Cells[4].Value.ToString());
-            txtDistance.Text = System.Convert.ToString(selectRow.Cells[5].Value.ToString());
-            txtTemp.Text = System.Convert.ToString(selectRow.Cells[6].Value.ToString());
-            txtHum.Text = System.Convert.ToString(selectRow.Cells[7].Value.ToString());
-            txtLongitude.Text = System.Convert.ToString(selectRow.Cells[8].Value.ToString());
-            txtLatitude.Text = System.Convert.ToString(selectRow.Cells[9].Value.ToString());
-            txtMax.Text = System.Convert.ToString(selectRow.Cells[10].Value.ToString());
-            txtAvg.Text = System.Convert.ToString(selectRow.Cells[11].Value.ToString());
-            txtDefect.Text = System.Convert.ToString(selectRow.Cells[12].Value.ToString());
-            txtNumPic.Text = System.Convert.ToString(selectRow.Cells[13].Value.ToString());
-            txtPartialPic.Text = System.Convert.ToString(selectRow.Cells[14].Value.ToString());
-            txtOverallPic.Text = System.Convert.ToString(selectRow.Cells[15].Value.ToString());
+            //dateTimePicker1.Value = System.Convert.ToDateTime(selectRow.Cells[1].Value.ToString());
+            txtID.Text = Convert.ToString(selectRow.Cells[0].Value.ToString());
+            txtInspector.Text = System.Convert.ToString(selectRow.Cells[2].Value.ToString());
+            txtLineName.Text = System.Convert.ToString(selectRow.Cells[3].Value.ToString());
+            txtTowerNum.Text = System.Convert.ToString(selectRow.Cells[4].Value.ToString());
+            txtFrequency.Text = System.Convert.ToString(selectRow.Cells[7].Value.ToString());
+            txtDistance.Text = System.Convert.ToString(selectRow.Cells[8].Value.ToString());
+            txtTemp.Text = System.Convert.ToString(selectRow.Cells[9].Value.ToString());
+            txtHum.Text = System.Convert.ToString(selectRow.Cells[10].Value.ToString());
+            txtLongitude.Text = System.Convert.ToString(selectRow.Cells[11].Value.ToString());
+            txtLatitude.Text = System.Convert.ToString(selectRow.Cells[12].Value.ToString());
+            txtMax.Text = System.Convert.ToString(selectRow.Cells[13].Value.ToString());
+            txtAvg.Text = System.Convert.ToString(selectRow.Cells[14].Value.ToString());
+            txtDefect.Text = System.Convert.ToString(selectRow.Cells[18].Value.ToString());
+            txtNumPic.Text = System.Convert.ToString(selectRow.Cells[15].Value.ToString());
+            txtPartialPic.Text = System.Convert.ToString(selectRow.Cells[16].Value.ToString());
+            txtOverallPic.Text = System.Convert.ToString(selectRow.Cells[17].Value.ToString());
+
+            if (txtID.Text.Length != 0)
+            {
+                updateNum.Enabled = true;
+                updateOverall.Enabled = true;
+                updatePartial.Enabled = true;
+            }
         }
 
 
@@ -87,17 +126,11 @@ namespace Hello
 
 
         //删除
-        public void delete_Click(object sender,EventArgs e)
+        private void delete_Click(object sender,EventArgs e)
         {
             if (MessageBox.Show("确定要删除此行信息吗？", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                //取出要删除行的对象
-                DataRow delRow = udpcDataSet1.Datas.Rows[dataGridView1.SelectedRows[0].Index];
-                //删除行
-                delRow.Delete();
-                //提交到数据库
-                datasTableAdapter.Update(udpcDataSet1.Datas);
-                udpcDataSet1.Datas.AcceptChanges();
+                
             }
         }
 
@@ -125,32 +158,17 @@ namespace Hello
 
 
         //修改保存
-        public void save_Click(object sender,EventArgs e)
+        private void save_Click(object sender,EventArgs e)
         {
-            DataRow row
-                = udpcDataSet1.Datas.Rows[dataGridView1.SelectedRows[0].Index];
-            row["detectTime"] = dateTimePicker1.Text;
-            row["inspector"] = txtInspector.Text;
-            row["lineName"] = txtLineName.Text;
-            row["towerNum"] = txtTowerNum.Text;
-            row["deviceType"] = comboBox1.Text;
-            row["deviceState"] = comboBox2.Text;
-            row["frequency"] = txtFrequency.Text;
-            row["distance"] = txtDistance.Text;
-            row["temperature"] = txtTemp.Text;
-            row["humidity"] = txtHum.Text;
-            row["longitude"] = txtLongitude.Text;
-            row["latitude"] = txtLatitude.Text;
-            row["maxDB"] = txtMax.Text;
-            row["avgDB"] = txtAvg.Text;
-            row["numPic"] = txtNumPic.Text;
-            row["overallPic"] = txtOverallPic.Text;
-            row["partialPic"] = txtPartialPic.Text;
-            row["defect"] = txtDefect.Text;
-
-            //提交到数据库
-            datasTableAdapter.Update(udpcDataSet1.Datas);
-            udpcDataSet1.Datas.AcceptChanges();
+            object sid = dataGridView1.SelectedRows[0].Cells[0].Value;
+            conn.Open();
+            string sql = "update Datas set inspector = '" + txtInspector.Text + "', lineName = '" + txtLineName.Text + "', towerNum = '" + txtTowerNum.Text + "', deviceState = '" + comboBox2.Text + "',deviceType = '" + comboBox1.Text + "', frequency = '" + txtFrequency.Text + "', distance = '" + txtDistance.Text + "', temperature = '" + txtTemp.Text + "', humidity = '" + txtHum.Text + "', longitude = '" + txtLongitude.Text + "', latitude = '" + txtLatitude.Text + "', maxDB = '" + txtMax.Text + "', avgDB = '" + txtAvg.Text + "', defect = '" + txtDefect.Text + "'" + " where id = " + sid;
+            SQLiteCommand command = new SQLiteCommand(sql, conn);
+            command.ExecuteNonQuery();
+            MessageBox.Show("修改成功！");
+            RefreshData();
+            conn.Close();
+            
         }
 
 
@@ -161,13 +179,14 @@ namespace Hello
         /// 需要标签
         public void print_Click(object p_str,EventArgs e)
         {
-            string config = ConfigurationManager.ConnectionStrings["udpc"].ConnectionString;
-            SqlConnection conn = new SqlConnection(config);
+            object sid = dataGridView1.SelectedRows[0].Cells[0].Value;
+            string config = "Data Source=" + System.Windows.Forms.Application.StartupPath + @"\test.db";
+            SQLiteConnection conn = new SQLiteConnection(config);
             conn.Open();
-            SqlCommand cmd = new SqlCommand();
+            SQLiteCommand cmd = new SQLiteCommand();
             cmd.Connection = conn;
-            cmd.CommandText = "select * from Datas where id = 1";
-            SqlDataReader reader = null;
+            cmd.CommandText = "select * from Datas where id = " + sid;
+            SQLiteDataReader reader = null;
             reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
             object missing = System.Reflection.Missing.Value;
             Microsoft.Office.Interop.Word._Application word = new Microsoft.Office.Interop.Word.Application();
@@ -178,11 +197,11 @@ namespace Hello
 
             object linkToFile = false;// 定义该插入图片是否为外部链接
             object saveWithDocument = true;// 定义插入图片是否随 word 文档一起保存
-            string numName = "编号" + ".png";
+            string numName = "编号" +sid+ ".png";
             string replaceNumPic = System.Windows.Forms.Application.StartupPath + @"\images\" + numName;
-            string overallName =  "整体" + ".png";
+            string overallName =  "整体" +sid+ ".png";
             string replaceOverallPic = System.Windows.Forms.Application.StartupPath + @"\images\" + overallName;
-            string partialName = "缺陷" + ".png";
+            string partialName = "缺陷" +sid+ ".png";
             string replacePartialPic = System.Windows.Forms.Application.StartupPath + @"\images\" + partialName;
 
             Microsoft.Office.Interop.Word._Document docx = word.Documents.Add(ref template, ref missing, ref missing, ref missing);
@@ -265,18 +284,20 @@ namespace Hello
         {
             if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                object sid = dataGridView1.SelectedRows[0].Cells[0].Value;
                 string fileName = openFileDialog1.FileName;
-                string fileRename = "编号" + Path.GetExtension(openFileDialog1.FileName);
+                string fileRename = "编号" +sid+ Path.GetExtension(openFileDialog1.FileName);
                 string localPath = System.Windows.Forms.Application.StartupPath + @"\images\" + fileRename;
                 File.Copy(fileName, localPath);
                 this.txtNumPic.Text = localPath;
 
-                string config = ConfigurationManager.ConnectionStrings["udpc"].ConnectionString;
-                SqlConnection conn = new SqlConnection(config);
+                
+                string config = "Data Source=" + System.Windows.Forms.Application.StartupPath + @"\test.db";
+                SQLiteConnection conn = new SQLiteConnection(config);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("update Datas set numPic = @numPic where id = @id", conn);
-                cmd.Parameters.Add(new SqlParameter("@numPic", localPath));
-                cmd.Parameters.Add(new SqlParameter("@id", 1));
+                SQLiteCommand cmd = new SQLiteCommand("update Datas set numPic = @numPic where id = @id", conn);
+                cmd.Parameters.Add(new SQLiteParameter("@numPic", localPath));
+                cmd.Parameters.Add(new SQLiteParameter("@id", sid));
                 if (cmd.ExecuteNonQuery() > 0)
                 {
                     MessageBox.Show("上传成功！");
@@ -293,18 +314,20 @@ namespace Hello
         {
             if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                object sid = dataGridView1.SelectedRows[0].Cells[0].Value;
                 string fileName = openFileDialog1.FileName;
-                string fileRename =  "整体" + Path.GetExtension(openFileDialog1.FileName);
+                string fileRename =  "整体" +sid+ Path.GetExtension(openFileDialog1.FileName);
                 string localPath = System.Windows.Forms.Application.StartupPath + @"\images\" + fileRename;
                 File.Copy(fileName, localPath);
                 this.txtNumPic.Text = localPath;
 
-                string config = ConfigurationManager.ConnectionStrings["udpc"].ConnectionString;
-                SqlConnection conn = new SqlConnection(config);
+                
+                string config = "Data Source=" + System.Windows.Forms.Application.StartupPath + @"\test.db";
+                SQLiteConnection conn = new SQLiteConnection(config);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("update Datas set overallPic = @overallPic where id = @id", conn);
-                cmd.Parameters.Add(new SqlParameter("@overallPic", localPath));
-                cmd.Parameters.Add(new SqlParameter("@id", 1));
+                SQLiteCommand cmd = new SQLiteCommand("update Datas set overallPic = @overallPic where id = @id", conn);
+                cmd.Parameters.Add(new SQLiteParameter("@overallPic", localPath));
+                cmd.Parameters.Add(new SQLiteParameter("@id", sid));
                 if (cmd.ExecuteNonQuery() > 0)
                 {
                     MessageBox.Show("上传成功！");
@@ -321,18 +344,19 @@ namespace Hello
         {
             if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                object sid = dataGridView1.SelectedRows[0].Cells[0].Value;
                 string fileName = openFileDialog1.FileName;
-                string fileRename =  "缺陷" + Path.GetExtension(openFileDialog1.FileName);
+                string fileRename =  "缺陷" +sid+ Path.GetExtension(openFileDialog1.FileName);
                 string localPath = System.Windows.Forms.Application.StartupPath + @"\images\" + fileRename;
                 File.Copy(fileName, localPath);
                 this.txtNumPic.Text = localPath;
 
-                string config = ConfigurationManager.ConnectionStrings["udpc"].ConnectionString;
-                SqlConnection conn = new SqlConnection(config);
+                string config = "Data Source=" + System.Windows.Forms.Application.StartupPath + @"\test.db";
+                SQLiteConnection conn = new SQLiteConnection(config);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("update Datas set partialPic = @partialPic where id = @id", conn);
-                cmd.Parameters.Add(new SqlParameter("@partialPic", localPath));
-                cmd.Parameters.Add(new SqlParameter("@id", 1));
+                SQLiteCommand cmd = new SQLiteCommand("update Datas set partialPic = @partialPic where id = @id", conn);
+                cmd.Parameters.Add(new SQLiteParameter("@partialPic", localPath));
+                cmd.Parameters.Add(new SQLiteParameter("@id", sid));
                 if (cmd.ExecuteNonQuery() > 0)
                 {
                     MessageBox.Show("上传成功！");

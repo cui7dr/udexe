@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 
 namespace Hello
 {
@@ -32,16 +33,13 @@ namespace Hello
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Edit));
-            this.dataTable = new System.Windows.Forms.GroupBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.datasBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.udpcDataSet1 = new Hello.udpcDataSet1();
             this.detailEdit = new System.Windows.Forms.GroupBox();
+            this.txtID = new System.Windows.Forms.TextBox();
+            this.labelID = new System.Windows.Forms.Label();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.txtPartialPic = new System.Windows.Forms.TextBox();
             this.updatePartial = new System.Windows.Forms.Button();
@@ -84,104 +82,21 @@ namespace Hello
             this.cancel = new System.Windows.Forms.Button();
             this.save = new System.Windows.Forms.Button();
             this.print = new System.Windows.Forms.Button();
-            this.datasTableAdapter = new Hello.udpcDataSet1TableAdapters.DatasTableAdapter();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.dataIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.detectTimeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.inspectorDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.lineNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.towerNumDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.deviceTypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.deviceStateDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.frequencyDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.distanceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.temperatureDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.humidityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.longitudeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.latitudeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.maxDBDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.avgDBDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.numPicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.overallPicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.partialPicDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.defectDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.datasDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.audioDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataTable.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.datasBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.udpcDataSet1)).BeginInit();
+            this.tableBox = new System.Windows.Forms.GroupBox();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.detailEdit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.tableBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // dataTable
-            // 
-            this.dataTable.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataTable.Controls.Add(this.dataGridView1);
-            this.dataTable.Font = new System.Drawing.Font("宋体", 12F);
-            this.dataTable.Location = new System.Drawing.Point(12, 12);
-            this.dataTable.Name = "dataTable";
-            this.dataTable.Size = new System.Drawing.Size(1176, 210);
-            this.dataTable.TabIndex = 0;
-            this.dataTable.TabStop = false;
-            this.dataTable.Text = "数据列表";
-            // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView1.AutoGenerateColumns = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataIdDataGridViewTextBoxColumn,
-            this.detectTimeDataGridViewTextBoxColumn,
-            this.inspectorDataGridViewTextBoxColumn,
-            this.lineNameDataGridViewTextBoxColumn,
-            this.towerNumDataGridViewTextBoxColumn,
-            this.deviceTypeDataGridViewTextBoxColumn,
-            this.deviceStateDataGridViewTextBoxColumn,
-            this.frequencyDataGridViewTextBoxColumn,
-            this.distanceDataGridViewTextBoxColumn,
-            this.temperatureDataGridViewTextBoxColumn,
-            this.humidityDataGridViewTextBoxColumn,
-            this.longitudeDataGridViewTextBoxColumn,
-            this.latitudeDataGridViewTextBoxColumn,
-            this.maxDBDataGridViewTextBoxColumn,
-            this.avgDBDataGridViewTextBoxColumn,
-            this.numPicDataGridViewTextBoxColumn,
-            this.overallPicDataGridViewTextBoxColumn,
-            this.partialPicDataGridViewTextBoxColumn,
-            this.defectDataGridViewTextBoxColumn,
-            this.datasDataGridViewTextBoxColumn,
-            this.audioDataGridViewTextBoxColumn});
-            this.dataGridView1.DataSource = this.datasBindingSource;
-            this.dataGridView1.Font = new System.Drawing.Font("宋体", 10F);
-            this.dataGridView1.Location = new System.Drawing.Point(6, 20);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowTemplate.Height = 23;
-            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(1164, 184);
-            this.dataGridView1.TabIndex = 0;
-            // 
-            // datasBindingSource
-            // 
-            this.datasBindingSource.DataMember = "Datas";
-            this.datasBindingSource.DataSource = this.udpcDataSet1;
-            // 
-            // udpcDataSet1
-            // 
-            this.udpcDataSet1.DataSetName = "udpcDataSet1";
-            this.udpcDataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // detailEdit
             // 
             this.detailEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.detailEdit.Controls.Add(this.txtID);
+            this.detailEdit.Controls.Add(this.labelID);
             this.detailEdit.Controls.Add(this.chart1);
             this.detailEdit.Controls.Add(this.txtPartialPic);
             this.detailEdit.Controls.Add(this.updatePartial);
@@ -226,6 +141,23 @@ namespace Hello
             this.detailEdit.TabIndex = 1;
             this.detailEdit.TabStop = false;
             this.detailEdit.Text = "详情编辑";
+            // 
+            // txtID
+            // 
+            this.txtID.Location = new System.Drawing.Point(71, 28);
+            this.txtID.Name = "txtID";
+            this.txtID.Size = new System.Drawing.Size(100, 26);
+            this.txtID.TabIndex = 43;
+            this.txtID.TabStop = false;
+            // 
+            // labelID
+            // 
+            this.labelID.AutoSize = true;
+            this.labelID.Location = new System.Drawing.Point(25, 32);
+            this.labelID.Name = "labelID";
+            this.labelID.Size = new System.Drawing.Size(40, 16);
+            this.labelID.TabIndex = 42;
+            this.labelID.Text = "编号";
             // 
             // chart1
             // 
@@ -305,7 +237,7 @@ namespace Hello
             // txtDefect
             // 
             this.txtDefect.Font = new System.Drawing.Font("宋体", 12F);
-            this.txtDefect.Location = new System.Drawing.Point(908, 98);
+            this.txtDefect.Location = new System.Drawing.Point(1053, 95);
             this.txtDefect.Name = "txtDefect";
             this.txtDefect.Size = new System.Drawing.Size(100, 26);
             this.txtDefect.TabIndex = 31;
@@ -316,7 +248,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelDefect.AutoSize = true;
             this.labelDefect.Font = new System.Drawing.Font("宋体", 12F);
-            this.labelDefect.Location = new System.Drawing.Point(830, 101);
+            this.labelDefect.Location = new System.Drawing.Point(975, 101);
             this.labelDefect.Name = "labelDefect";
             this.labelDefect.Size = new System.Drawing.Size(72, 16);
             this.labelDefect.TabIndex = 30;
@@ -325,7 +257,7 @@ namespace Hello
             // txtAvg
             // 
             this.txtAvg.Font = new System.Drawing.Font("宋体", 12F);
-            this.txtAvg.Location = new System.Drawing.Point(689, 98);
+            this.txtAvg.Location = new System.Drawing.Point(654, 98);
             this.txtAvg.Name = "txtAvg";
             this.txtAvg.Size = new System.Drawing.Size(100, 26);
             this.txtAvg.TabIndex = 29;
@@ -336,7 +268,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelAvg.AutoSize = true;
             this.labelAvg.Font = new System.Drawing.Font("宋体", 12F);
-            this.labelAvg.Location = new System.Drawing.Point(619, 101);
+            this.labelAvg.Location = new System.Drawing.Point(584, 101);
             this.labelAvg.Name = "labelAvg";
             this.labelAvg.Size = new System.Drawing.Size(64, 16);
             this.labelAvg.TabIndex = 28;
@@ -345,7 +277,7 @@ namespace Hello
             // txtMax
             // 
             this.txtMax.Font = new System.Drawing.Font("宋体", 12F);
-            this.txtMax.Location = new System.Drawing.Point(481, 98);
+            this.txtMax.Location = new System.Drawing.Point(446, 98);
             this.txtMax.Name = "txtMax";
             this.txtMax.Size = new System.Drawing.Size(100, 26);
             this.txtMax.TabIndex = 27;
@@ -356,7 +288,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMax.AutoSize = true;
             this.labelMax.Font = new System.Drawing.Font("宋体", 12F);
-            this.labelMax.Location = new System.Drawing.Point(411, 101);
+            this.labelMax.Location = new System.Drawing.Point(376, 101);
             this.labelMax.Name = "labelMax";
             this.labelMax.Size = new System.Drawing.Size(64, 16);
             this.labelMax.TabIndex = 26;
@@ -365,7 +297,7 @@ namespace Hello
             // txtLatitude
             // 
             this.txtLatitude.Font = new System.Drawing.Font("宋体", 12F);
-            this.txtLatitude.Location = new System.Drawing.Point(264, 98);
+            this.txtLatitude.Location = new System.Drawing.Point(243, 98);
             this.txtLatitude.Name = "txtLatitude";
             this.txtLatitude.Size = new System.Drawing.Size(100, 26);
             this.txtLatitude.TabIndex = 25;
@@ -376,7 +308,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelLatitude.AutoSize = true;
             this.labelLatitude.Font = new System.Drawing.Font("宋体", 12F);
-            this.labelLatitude.Location = new System.Drawing.Point(218, 101);
+            this.labelLatitude.Location = new System.Drawing.Point(196, 101);
             this.labelLatitude.Name = "labelLatitude";
             this.labelLatitude.Size = new System.Drawing.Size(40, 16);
             this.labelLatitude.TabIndex = 24;
@@ -465,7 +397,7 @@ namespace Hello
             // txtFrequency
             // 
             this.txtFrequency.Font = new System.Drawing.Font("宋体", 12F);
-            this.txtFrequency.Location = new System.Drawing.Point(1053, 21);
+            this.txtFrequency.Location = new System.Drawing.Point(838, 95);
             this.txtFrequency.Name = "txtFrequency";
             this.txtFrequency.Size = new System.Drawing.Size(100, 26);
             this.txtFrequency.TabIndex = 15;
@@ -476,7 +408,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelFrequency.AutoSize = true;
             this.labelFrequency.Font = new System.Drawing.Font("宋体", 12F);
-            this.labelFrequency.Location = new System.Drawing.Point(1007, 28);
+            this.labelFrequency.Location = new System.Drawing.Point(792, 98);
             this.labelFrequency.Name = "labelFrequency";
             this.labelFrequency.Size = new System.Drawing.Size(40, 16);
             this.labelFrequency.TabIndex = 14;
@@ -549,7 +481,7 @@ namespace Hello
             // txtTowerNum
             // 
             this.txtTowerNum.Font = new System.Drawing.Font("宋体", 12F);
-            this.txtTowerNum.Location = new System.Drawing.Point(870, 22);
+            this.txtTowerNum.Location = new System.Drawing.Point(1006, 31);
             this.txtTowerNum.Name = "txtTowerNum";
             this.txtTowerNum.Size = new System.Drawing.Size(100, 26);
             this.txtTowerNum.TabIndex = 8;
@@ -560,7 +492,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTowerNum.AutoSize = true;
             this.labelTowerNum.Font = new System.Drawing.Font("宋体", 12F);
-            this.labelTowerNum.Location = new System.Drawing.Point(792, 28);
+            this.labelTowerNum.Location = new System.Drawing.Point(928, 32);
             this.labelTowerNum.Name = "labelTowerNum";
             this.labelTowerNum.Size = new System.Drawing.Size(72, 16);
             this.labelTowerNum.TabIndex = 7;
@@ -569,7 +501,7 @@ namespace Hello
             // txtLineName
             // 
             this.txtLineName.Font = new System.Drawing.Font("宋体", 12F);
-            this.txtLineName.Location = new System.Drawing.Point(649, 25);
+            this.txtLineName.Location = new System.Drawing.Point(795, 29);
             this.txtLineName.Name = "txtLineName";
             this.txtLineName.Size = new System.Drawing.Size(100, 26);
             this.txtLineName.TabIndex = 6;
@@ -580,7 +512,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelLineName.AutoSize = true;
             this.labelLineName.Font = new System.Drawing.Font("宋体", 12F);
-            this.labelLineName.Location = new System.Drawing.Point(571, 31);
+            this.labelLineName.Location = new System.Drawing.Point(717, 32);
             this.labelLineName.Name = "labelLineName";
             this.labelLineName.Size = new System.Drawing.Size(72, 16);
             this.labelLineName.TabIndex = 5;
@@ -589,7 +521,7 @@ namespace Hello
             // txtInspector
             // 
             this.txtInspector.Font = new System.Drawing.Font("宋体", 12F);
-            this.txtInspector.Location = new System.Drawing.Point(429, 25);
+            this.txtInspector.Location = new System.Drawing.Point(587, 28);
             this.txtInspector.Name = "txtInspector";
             this.txtInspector.Size = new System.Drawing.Size(100, 26);
             this.txtInspector.TabIndex = 4;
@@ -600,7 +532,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelInspector.AutoSize = true;
             this.labelInspector.Font = new System.Drawing.Font("宋体", 12F);
-            this.labelInspector.Location = new System.Drawing.Point(351, 31);
+            this.labelInspector.Location = new System.Drawing.Point(509, 31);
             this.labelInspector.Name = "labelInspector";
             this.labelInspector.Size = new System.Drawing.Size(72, 16);
             this.labelInspector.TabIndex = 3;
@@ -611,7 +543,7 @@ namespace Hello
             this.dateTimePicker1.CalendarFont = new System.Drawing.Font("宋体", 12F);
             this.dateTimePicker1.CustomFormat = "yyyy-MM-dd HH:mm:ss";
             this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.Location = new System.Drawing.Point(103, 25);
+            this.dateTimePicker1.Location = new System.Drawing.Point(274, 28);
             this.dateTimePicker1.Name = "dateTimePicker1";
             this.dateTimePicker1.Size = new System.Drawing.Size(208, 26);
             this.dateTimePicker1.TabIndex = 2;
@@ -622,7 +554,7 @@ namespace Hello
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelTime.AutoSize = true;
             this.labelTime.Font = new System.Drawing.Font("宋体", 12F);
-            this.labelTime.Location = new System.Drawing.Point(25, 32);
+            this.labelTime.Location = new System.Drawing.Point(196, 31);
             this.labelTime.Name = "labelTime";
             this.labelTime.Size = new System.Drawing.Size(72, 16);
             this.labelTime.TabIndex = 1;
@@ -668,7 +600,7 @@ namespace Hello
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(180, 32);
             this.save.TabIndex = 5;
-            this.save.Text = "保存";
+            this.save.Text = "修改";
             this.save.UseVisualStyleBackColor = true;
             this.save.Click += new System.EventHandler(this.save_Click);
             // 
@@ -683,211 +615,68 @@ namespace Hello
             this.print.UseVisualStyleBackColor = true;
             this.print.Click += new System.EventHandler(this.print_Click);
             // 
-            // datasTableAdapter
-            // 
-            this.datasTableAdapter.ClearBeforeFill = true;
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // dataIdDataGridViewTextBoxColumn
+            // tableBox
             // 
-            this.dataIdDataGridViewTextBoxColumn.DataPropertyName = "dataId";
-            this.dataIdDataGridViewTextBoxColumn.HeaderText = "编号";
-            this.dataIdDataGridViewTextBoxColumn.Name = "dataIdDataGridViewTextBoxColumn";
-            this.dataIdDataGridViewTextBoxColumn.ReadOnly = true;
-            this.dataIdDataGridViewTextBoxColumn.Width = 60;
+            this.tableBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableBox.Controls.Add(this.dataGridView1);
+            this.tableBox.Font = new System.Drawing.Font("宋体", 12F);
+            this.tableBox.Location = new System.Drawing.Point(12, 12);
+            this.tableBox.Name = "tableBox";
+            this.tableBox.Size = new System.Drawing.Size(1176, 210);
+            this.tableBox.TabIndex = 7;
+            this.tableBox.TabStop = false;
+            this.tableBox.Text = "数据列表";
             // 
-            // detectTimeDataGridViewTextBoxColumn
+            // dataGridView1
             // 
-            this.detectTimeDataGridViewTextBoxColumn.DataPropertyName = "detectTime";
-            this.detectTimeDataGridViewTextBoxColumn.HeaderText = "检测时间";
-            this.detectTimeDataGridViewTextBoxColumn.Name = "detectTimeDataGridViewTextBoxColumn";
-            this.detectTimeDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // inspectorDataGridViewTextBoxColumn
-            // 
-            this.inspectorDataGridViewTextBoxColumn.DataPropertyName = "inspector";
-            this.inspectorDataGridViewTextBoxColumn.HeaderText = "检测员";
-            this.inspectorDataGridViewTextBoxColumn.Name = "inspectorDataGridViewTextBoxColumn";
-            this.inspectorDataGridViewTextBoxColumn.ReadOnly = true;
-            this.inspectorDataGridViewTextBoxColumn.Width = 75;
-            // 
-            // lineNameDataGridViewTextBoxColumn
-            // 
-            this.lineNameDataGridViewTextBoxColumn.DataPropertyName = "lineName";
-            this.lineNameDataGridViewTextBoxColumn.HeaderText = "线路名称";
-            this.lineNameDataGridViewTextBoxColumn.Name = "lineNameDataGridViewTextBoxColumn";
-            this.lineNameDataGridViewTextBoxColumn.ReadOnly = true;
-            this.lineNameDataGridViewTextBoxColumn.Width = 90;
-            // 
-            // towerNumDataGridViewTextBoxColumn
-            // 
-            this.towerNumDataGridViewTextBoxColumn.DataPropertyName = "towerNum";
-            this.towerNumDataGridViewTextBoxColumn.HeaderText = "杆塔编号";
-            this.towerNumDataGridViewTextBoxColumn.Name = "towerNumDataGridViewTextBoxColumn";
-            this.towerNumDataGridViewTextBoxColumn.ReadOnly = true;
-            this.towerNumDataGridViewTextBoxColumn.Width = 90;
-            // 
-            // deviceTypeDataGridViewTextBoxColumn
-            // 
-            this.deviceTypeDataGridViewTextBoxColumn.DataPropertyName = "deviceType";
-            this.deviceTypeDataGridViewTextBoxColumn.HeaderText = "设备类型";
-            this.deviceTypeDataGridViewTextBoxColumn.Name = "deviceTypeDataGridViewTextBoxColumn";
-            this.deviceTypeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.deviceTypeDataGridViewTextBoxColumn.Width = 90;
-            // 
-            // deviceStateDataGridViewTextBoxColumn
-            // 
-            this.deviceStateDataGridViewTextBoxColumn.DataPropertyName = "deviceState";
-            this.deviceStateDataGridViewTextBoxColumn.HeaderText = "设备状态";
-            this.deviceStateDataGridViewTextBoxColumn.Name = "deviceStateDataGridViewTextBoxColumn";
-            this.deviceStateDataGridViewTextBoxColumn.ReadOnly = true;
-            this.deviceStateDataGridViewTextBoxColumn.Width = 90;
-            // 
-            // frequencyDataGridViewTextBoxColumn
-            // 
-            this.frequencyDataGridViewTextBoxColumn.DataPropertyName = "frequency";
-            this.frequencyDataGridViewTextBoxColumn.HeaderText = "频率";
-            this.frequencyDataGridViewTextBoxColumn.Name = "frequencyDataGridViewTextBoxColumn";
-            this.frequencyDataGridViewTextBoxColumn.ReadOnly = true;
-            this.frequencyDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // distanceDataGridViewTextBoxColumn
-            // 
-            this.distanceDataGridViewTextBoxColumn.DataPropertyName = "distance";
-            this.distanceDataGridViewTextBoxColumn.HeaderText = "距离";
-            this.distanceDataGridViewTextBoxColumn.Name = "distanceDataGridViewTextBoxColumn";
-            this.distanceDataGridViewTextBoxColumn.ReadOnly = true;
-            this.distanceDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // temperatureDataGridViewTextBoxColumn
-            // 
-            this.temperatureDataGridViewTextBoxColumn.DataPropertyName = "temperature";
-            this.temperatureDataGridViewTextBoxColumn.HeaderText = "温度";
-            this.temperatureDataGridViewTextBoxColumn.Name = "temperatureDataGridViewTextBoxColumn";
-            this.temperatureDataGridViewTextBoxColumn.ReadOnly = true;
-            this.temperatureDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // humidityDataGridViewTextBoxColumn
-            // 
-            this.humidityDataGridViewTextBoxColumn.DataPropertyName = "humidity";
-            this.humidityDataGridViewTextBoxColumn.HeaderText = "湿度";
-            this.humidityDataGridViewTextBoxColumn.Name = "humidityDataGridViewTextBoxColumn";
-            this.humidityDataGridViewTextBoxColumn.ReadOnly = true;
-            this.humidityDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // longitudeDataGridViewTextBoxColumn
-            // 
-            this.longitudeDataGridViewTextBoxColumn.DataPropertyName = "longitude";
-            this.longitudeDataGridViewTextBoxColumn.HeaderText = "经度";
-            this.longitudeDataGridViewTextBoxColumn.Name = "longitudeDataGridViewTextBoxColumn";
-            this.longitudeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.longitudeDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // latitudeDataGridViewTextBoxColumn
-            // 
-            this.latitudeDataGridViewTextBoxColumn.DataPropertyName = "latitude";
-            this.latitudeDataGridViewTextBoxColumn.HeaderText = "纬度";
-            this.latitudeDataGridViewTextBoxColumn.Name = "latitudeDataGridViewTextBoxColumn";
-            this.latitudeDataGridViewTextBoxColumn.ReadOnly = true;
-            this.latitudeDataGridViewTextBoxColumn.Width = 60;
-            // 
-            // maxDBDataGridViewTextBoxColumn
-            // 
-            this.maxDBDataGridViewTextBoxColumn.DataPropertyName = "maxDB";
-            this.maxDBDataGridViewTextBoxColumn.HeaderText = "最大值";
-            this.maxDBDataGridViewTextBoxColumn.Name = "maxDBDataGridViewTextBoxColumn";
-            this.maxDBDataGridViewTextBoxColumn.ReadOnly = true;
-            this.maxDBDataGridViewTextBoxColumn.Width = 75;
-            // 
-            // avgDBDataGridViewTextBoxColumn
-            // 
-            this.avgDBDataGridViewTextBoxColumn.DataPropertyName = "avgDB";
-            this.avgDBDataGridViewTextBoxColumn.HeaderText = "平均值";
-            this.avgDBDataGridViewTextBoxColumn.Name = "avgDBDataGridViewTextBoxColumn";
-            this.avgDBDataGridViewTextBoxColumn.ReadOnly = true;
-            this.avgDBDataGridViewTextBoxColumn.Width = 75;
-            // 
-            // numPicDataGridViewTextBoxColumn
-            // 
-            this.numPicDataGridViewTextBoxColumn.DataPropertyName = "numPic";
-            this.numPicDataGridViewTextBoxColumn.HeaderText = "杆塔编号照片";
-            this.numPicDataGridViewTextBoxColumn.Name = "numPicDataGridViewTextBoxColumn";
-            this.numPicDataGridViewTextBoxColumn.ReadOnly = true;
-            this.numPicDataGridViewTextBoxColumn.Width = 115;
-            // 
-            // overallPicDataGridViewTextBoxColumn
-            // 
-            this.overallPicDataGridViewTextBoxColumn.DataPropertyName = "overallPic";
-            this.overallPicDataGridViewTextBoxColumn.HeaderText = "杆塔全景照片";
-            this.overallPicDataGridViewTextBoxColumn.Name = "overallPicDataGridViewTextBoxColumn";
-            this.overallPicDataGridViewTextBoxColumn.ReadOnly = true;
-            this.overallPicDataGridViewTextBoxColumn.Width = 120;
-            // 
-            // partialPicDataGridViewTextBoxColumn
-            // 
-            this.partialPicDataGridViewTextBoxColumn.DataPropertyName = "partialPic";
-            this.partialPicDataGridViewTextBoxColumn.HeaderText = "缺陷局部照片";
-            this.partialPicDataGridViewTextBoxColumn.Name = "partialPicDataGridViewTextBoxColumn";
-            this.partialPicDataGridViewTextBoxColumn.ReadOnly = true;
-            this.partialPicDataGridViewTextBoxColumn.Width = 120;
-            // 
-            // defectDataGridViewTextBoxColumn
-            // 
-            this.defectDataGridViewTextBoxColumn.DataPropertyName = "defect";
-            this.defectDataGridViewTextBoxColumn.HeaderText = "缺陷程度";
-            this.defectDataGridViewTextBoxColumn.Name = "defectDataGridViewTextBoxColumn";
-            this.defectDataGridViewTextBoxColumn.ReadOnly = true;
-            this.defectDataGridViewTextBoxColumn.Width = 90;
-            // 
-            // datasDataGridViewTextBoxColumn
-            // 
-            this.datasDataGridViewTextBoxColumn.DataPropertyName = "datas";
-            this.datasDataGridViewTextBoxColumn.HeaderText = "数据";
-            this.datasDataGridViewTextBoxColumn.Name = "datasDataGridViewTextBoxColumn";
-            this.datasDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // audioDataGridViewTextBoxColumn
-            // 
-            this.audioDataGridViewTextBoxColumn.DataPropertyName = "audio";
-            this.audioDataGridViewTextBoxColumn.HeaderText = "音频";
-            this.audioDataGridViewTextBoxColumn.Name = "audioDataGridViewTextBoxColumn";
-            this.audioDataGridViewTextBoxColumn.ReadOnly = true;
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(6, 25);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
+            this.dataGridView1.RowTemplate.Height = 23;
+            this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dataGridView1.Size = new System.Drawing.Size(1164, 179);
+            this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.Click += new System.EventHandler(this.dataView_Click);
             // 
             // Edit
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 749);
+            this.Controls.Add(this.tableBox);
             this.Controls.Add(this.print);
             this.Controls.Add(this.save);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.delete);
             this.Controls.Add(this.home);
             this.Controls.Add(this.detailEdit);
-            this.Controls.Add(this.dataTable);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Edit";
             this.Text = "历史数据";
             this.Load += new System.EventHandler(this.Edit_Load);
-            this.dataTable.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.datasBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.udpcDataSet1)).EndInit();
             this.detailEdit.ResumeLayout(false);
             this.detailEdit.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.tableBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private GroupBox dataTable;
+        
         private GroupBox detailEdit;
-        private DataGridView dataGridView1;
         private Label labelTowerNum;
         private TextBox txtLineName;
         private Label labelLineName;
@@ -932,30 +721,10 @@ namespace Hello
         private Button cancel;
         private Button save;
         private Button print;
-        private udpcDataSet1 udpcDataSet1;
-        private BindingSource datasBindingSource;
-        private udpcDataSet1TableAdapters.DatasTableAdapter datasTableAdapter;
         private OpenFileDialog openFileDialog1;
-        private DataGridViewTextBoxColumn dataIdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn detectTimeDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn inspectorDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn lineNameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn towerNumDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn deviceTypeDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn deviceStateDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn frequencyDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn distanceDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn temperatureDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn humidityDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn longitudeDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn latitudeDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn maxDBDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn avgDBDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn numPicDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn overallPicDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn partialPicDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn defectDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn datasDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn audioDataGridViewTextBoxColumn;
+        private TextBox txtID;
+        private Label labelID;
+        private GroupBox tableBox;
+        private DataGridView dataGridView1;
     }
 }
