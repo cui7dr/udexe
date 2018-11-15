@@ -32,6 +32,7 @@ namespace Hello
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -58,6 +59,9 @@ namespace Hello
             this.save = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.prompt = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.waveform)).BeginInit();
             this.groupReal.SuspendLayout();
             this.SuspendLayout();
@@ -89,6 +93,10 @@ namespace Hello
             this.waveform.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             chartArea1.AxisX.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
+            chartArea1.AxisX.Maximum = 500D;
+            chartArea1.AxisX.Minimum = 1D;
+            chartArea1.AxisY.Maximum = 260D;
+            chartArea1.AxisY.Minimum = 0D;
             chartArea1.Name = "ChartArea1";
             this.waveform.ChartAreas.Add(chartArea1);
             legend1.Enabled = false;
@@ -97,7 +105,8 @@ namespace Hello
             this.waveform.Location = new System.Drawing.Point(8, 21);
             this.waveform.Name = "waveform";
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Color = System.Drawing.Color.Navy;
             series1.Legend = "Legend1";
             series1.Name = "Series1";
             this.waveform.Series.Add(series1);
@@ -303,7 +312,7 @@ namespace Hello
             this.save.TabIndex = 24;
             this.save.Text = "保存";
             this.save.UseVisualStyleBackColor = true;
-            this.save.Click += new System.EventHandler(this.save_Click);
+            this.save.Click += new System.EventHandler(this.disconnect_Click);
             // 
             // comboBox1
             // 
@@ -314,12 +323,38 @@ namespace Hello
             this.comboBox1.Size = new System.Drawing.Size(96, 29);
             this.comboBox1.TabIndex = 25;
             // 
+            // timer2
+            // 
+            //this.timer2.Interval = 100;
+            //this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
+            // prompt
+            // 
+            this.prompt.AutoSize = true;
+            this.prompt.Font = new System.Drawing.Font("宋体", 12F);
+            this.prompt.ForeColor = System.Drawing.Color.Teal;
+            this.prompt.Location = new System.Drawing.Point(12, 678);
+            this.prompt.Name = "prompt";
+            this.prompt.Size = new System.Drawing.Size(0, 16);
+            this.prompt.TabIndex = 26;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(275, 556);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 27;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // Index
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1264, 749);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.prompt);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.save);
             this.Controls.Add(this.position);
@@ -355,13 +390,6 @@ namespace Hello
 
 
 
-        private void labelReal_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
         #endregion
         private GroupBox groupReal;
         private Chart waveform;
@@ -388,6 +416,9 @@ namespace Hello
         private Button historical;
         private ComboBox comboBox1;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private Timer timer2;
+        private Label prompt;
+        private Button button1;
     }
 }
 

@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using InTheHand.Net;
-using InTheHand.Net.Bluetooth;
+﻿using InTheHand.Net;
 using InTheHand.Windows.Forms;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Device.Location;
+using System.Drawing;
 using System.IO.Ports;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Data.SqlClient;
-using System.Configuration;
-using System.Device.Location;
+using System.Windows.Forms;
 
 namespace Hello
 {
@@ -24,16 +21,15 @@ namespace Hello
         BluetoothAddress address = null;//蓝牙地址
         SerialPort my = new SerialPort();
         string gpstext = "";
-        double dis;
 
         public Index()
         {
             InitializeComponent();
 
-
             Control.CheckForIllegalCrossThreadCalls = false;//工作线程不能访问窗口线程
             this.FormBorderStyle = FormBorderStyle.Sizable;// 显示任务栏
             this.WindowState = FormWindowState.Maximized;// 窗体最大化
+            waveform.Series[0].Points.AddY(0);
 
             // 获得所有端口列表并显示
             PortList.Items.Clear();
@@ -47,8 +43,6 @@ namespace Hello
             }
             if (ports.Length > 1)
                 PortList.SelectedIndex = 1;
-
-            
         }
 
 
@@ -64,7 +58,7 @@ namespace Hello
             SelectBluetoothDeviceDialog dialog = new SelectBluetoothDeviceDialog();
             //dialog.ShowRemembered = true;//显示已经记住的蓝牙设备
             dialog.ShowAuthenticated = true;//显示已经认证过的蓝牙设备
-            dialog.ShowUnknown = true;//显示未知蓝牙设备
+            //dialog.ShowUnknown = true;//显示未知蓝牙设备
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 address = dialog.SelectedDevice.DeviceAddress;//获取选择的蓝牙地址
@@ -75,196 +69,138 @@ namespace Hello
                     BluetoothConnection.PortName = PortList.SelectedItem.ToString();
                     BluetoothConnection.Open();
                     BluetoothConnection.BaudRate = 115200;//波特率
-                    BluetoothConnection.ReadTimeout = 10000;
-                    BluetoothConnection.DataReceived += new SerialDataReceivedEventHandler(BluetoothDataRecevied);
+                    BluetoothConnection.ReadTimeout = 1000;
+                    
+                    BluetoothConnection.DataReceived += new SerialDataReceivedEventHandler(Version);
+
+                    //timer1.Elapsed += Version;
+                    //timer1.Start();
+                    //timer1.AutoReset = false;
+                    
+                    //timer2.Start();
+                    //GC.Collect();
+                    BluetoothConnection.DataReceived += new SerialDataReceivedEventHandler(timer2_Tick);
+
                     //这是个弹窗
                     //MessageBox.Show("蓝牙连接成功！\n地址：" + address.ToString() + "\n设备名：" + dialog.SelectedDevice.DeviceName, "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    prompt.Text = "蓝牙连接成功！    蓝牙 Mac 地址：" + address.ToString() + "    设备名称：" + dialog.SelectedDevice.DeviceName;
                 }
             }
+        }
 
+        public void Version(object obj, SerialDataReceivedEventArgs e)//SerialDataReceivedEventArgs
+        {
+            Thread.Sleep(20);
+            byte[] version = new byte[13];
+            BluetoothConnection.Read(version, 0, 13);
+            //上电校验
+            if (version[0] == 255 && version[1] == 255 && version[2] == 255)
+            {
+                byte add1 = version[3];
+                byte add2 = version[4];
+                //byte com = version[5];
+                //byte len1 = version[6];
+                //byte len2 = version[7];
+                byte type1 = version[8];
+                byte type2 = version[9];
+                byte vers1 = version[10];
+                byte vers2 = version[11];
+                byte crc8 = version[12];
+                //接收数据存到buffer数组
+                byte[] buffer = new byte[] { add1, add2, 7, 0, 4, type1, type2, vers1, vers2 };
+                byte crcnum = CRC8(buffer);
+                byte[] sendVer = new byte[] { add1, add2, 4, 0, 4, type1, type2, vers1, vers2 };
+                string time = DateTime.Now.ToString("yyyyMMddHHmmss");
+                byte year = Convert.ToByte(time.Substring(2, 2));
+                byte mou = Convert.ToByte(time.Substring(4, 2));
+                byte day = Convert.ToByte(time.Substring(6, 2));
+                byte hour = Convert.ToByte(time.Substring(8, 2));
+                byte minute = Convert.ToByte(time.Substring(10, 2));
+                byte second = Convert.ToByte(time.Substring(12, 2));
+                byte[] sendTime = new byte[] { add1, add2, 8, 0, 7, 20, year, mou, day, hour, minute, second };
+                byte sendVerCrc = CRC8(sendVer);
+                byte sendTimeCrc = CRC8(sendTime);
+                //校验CRC发送认证
+                if (crc8 == crcnum)
+                {
+                    BluetoothSendVer(new byte[] { 255, 255, 255, add1, add2, 4, 0, 4, type1, type2, vers1, vers2, sendVerCrc });
+                    //Thread.Sleep(1000);
+                    BluetoothSendTime(new byte[] { 255, 255, 255, add1, add2, 8, 0, 7, 20, year, mou, day, hour, minute, second, sendTimeCrc });
+                }
+
+            }
         }
 
 
         //蓝牙接收数据并显示波形
-        public void BluetoothDataRecevied(object ebj, SerialDataReceivedEventArgs e)//
+        public void timer2_Tick(object obj, EventArgs e)//SerialDataReceived
         {
-
-            Thread.Sleep(20);
-            //int length = 1000;
-            int length = BluetoothConnection.ReadByte();
-
-            length += BluetoothConnection.ReadByte() * 256;
-            //BluetoothReceviedData = DateTime.Now.ToLongDateString() + "\r\n";
-            byte[] data = new byte[1013];
-            BluetoothConnection.Read(data, 0, 1013);
-            byte[] version = new byte[13];
-            BluetoothConnection.Read(version, 0, 13);
-            //BluetoothConnection.ReadTimeout = 5000;
-            double[] avgnum = new double[1013];
-            List<double> avglist = new List<double>();
-
-            // BluetoothConnection.Read(avgnum, 0.13);
-
-            //上电校验
-            if (version[0] == 255 && version[1] == 255 && version[2] == 255)
-            {
-                
-                byte add1 = version[3];
-                byte add2 = version[4];
-                byte com = version[5];
-                byte len1 = version[6];
-                byte len2 = version[7];
-                //string len = ver.Substring(6, 2);//长度
-                byte type1 = version[8];
-                byte type2 = version[9];
-                //string type = ver.Substring(8, 2);//设备类型
-                byte vers1 = version[10];
-                byte vers2 = version[11];
-                //string vers = ver.Substring(10, 2);//版本号
-                byte crc8 = version[12];
-                //接收数据存到buffer数组
-                byte[] buffer = new byte[] { add1, add2, com, len1, len2, type1, type2, vers1, vers2 };
-                byte crcnum = CRC8(buffer);
-                byte[] sendVer = new byte[] { add1, add2, 4, len1, len2, type1, type2, vers1, vers2 };
-                string time = DateTime.Now.ToString("yyyyMMddHHmmss");
-                int year = Convert.ToInt32(time.Substring(2, 2));
-                int mou = Convert.ToInt32(time.Substring(4, 2));
-                int day = Convert.ToInt32(time.Substring(6, 2));
-                int hour = Convert.ToInt32(time.Substring(8, 2));
-                int minute = Convert.ToInt32(time.Substring(10, 2));
-                int second = Convert.ToInt32(time.Substring(12, 2));
-                byte[] sendTime = new byte[] { add1, add2, 8, 0, 7, 20, (byte)year, (byte)mou, (byte)day, (byte)hour, (byte)minute, (byte)second };
-                byte sendVerCrc = CRC8(sendVer);
-                byte sendTimeCrc = CRC8(sendTime);
-                //校验CRC发送认证
-                if (com != 0 && crc8 == crcnum)
-                {
-                    BluetoothSendVer(new byte[] { 255, 255, 255, add1, add2, 4, len1, len2, type1, type2, vers1, vers2, sendVerCrc });
-                    //Thread.Sleep(1000);
-                    BluetoothSendTime(new byte[] { 255, 255, 255, add1, add2, 8, 0, 7, 20, (byte)year, (byte)mou, (byte)day, (byte)hour, (byte)minute, (byte)second, sendTimeCrc });
-                    waveform.Series[0].Points.Clear();
-                    data = new byte[1013];
-                    BluetoothConnection.Read(data, 0, 1013);
-                }
-                //else
-                //{
-                //    MessageBox.Show("校验失败，请重新启动。。。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //}
-
-            }
-            /*else if (version[0] != 255 && version[1] != 255 && version[2] != 255)
-            {
-                MessageBox.Show("接收信息错误！\n请重新连接。。。", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }*/
-
+            int length = BluetoothConnection.BytesToRead;
+            if (length > 2000)
+                BluetoothConnection.DiscardInBuffer();
+            byte[] data = new byte[500];
+            BluetoothConnection.Read(data, 0, 500);
+            double[] avgnum = new double[200];
 
             //显示波形
-            for (int i = 0; i < 1013; i++)
+            for (int i = 0; i < length; i++)
             {
-                if (i < 980 && data[i] == 255 && data[i + 1] == 255 && data[i + 2] == 255)
+                if (i <= length-30 && data[i] == 255 && data[i + 1] == 255 && data[i + 2] == 255 && data[i + 7] == 14)
                 {
+                    int avg1 = data[i + 8];
+                    int avg2 = data[i + 9];
 
-                    if (data[i + 7] == 14)
+                    double avg = avg1 + (double)avg2 / 10;//平均值...
+
+                    waveform.Series[0].Points.AddY(avg);
+                    if (waveform.Series[0].Points.Count() > 500)
                     {
-                        int avg1 = data[i + 8];
-                        int avg2 = data[i + 9];
-                        int max1 = data[i + 10];
-                        int max2 = data[i + 11];
-                        int temp1 = data[i + 14];
-                        int temp2 = data[i + 15];
-                        int hum1 = data[i + 16];
-                        int hum2 = data[i + 17];
-                        double avg = avg1 + (double)avg2 / 10;//平均值...
-
-
-                        //显示最大值
-                        if (max1 == 255)
-                        {
-                            this.labelMax.Text = max1.ToString();
-                        }
-                        else
-                        {
-                            this.labelMax.Text = max1.ToString() + "." + max2.ToString();
-                        }
-                        if (max1 < 90)
-                        {
-                            this.labelMax.ForeColor = Color.Green;
-                        }
-                        else
-                        {
-                            this.labelMax.ForeColor = Color.Red;
-                            this.labelMax.Font = new Font("宋体", 16);
-                        }
-                        //显示平均值
-                        if (avg >= 255)
-                        {
-                            labelAvg.Text = avg1.ToString();
-                        }
-                        else
-                        {
-                            this.labelAvg.Text = avg.ToString();
-                        }
-                        if (avg < 70)
-                        {
-                            this.labelAvg.ForeColor = Color.Green;
-                        }
-                        else
-                        {
-                            this.labelAvg.ForeColor = Color.Red;
-                            this.labelAvg.Font = new Font("宋体", 16);
-                        }
-                        this.labelTemp.Text = temp1.ToString() + "." + temp2.ToString();//显示温度
-                        this.labelHum.Text = hum1.ToString() + "." + hum2.ToString();//显示湿度
-                        Random ra = new Random();
-                        if (avg1 == 0)
-                        {
-                            avg = ra.Next(40, 80);
-                        }
-                        avglist.Add(avg);
-                        
-                       
-                        //if (avg != 0)0
-                        //{
-                        //    avglist.Add(avg);
-
-                        //}
-                        for (int j = 0; j < avglist.Count; j++)
-                        {
-                            waveform.Series[0].Points.AddY(avglist[j]);
-                            if (waveform.Series[0].Points.Count() > 1000)
-                            {
-                                waveform.Series[0].Points.RemoveAt(0);
-                            }
-                            if (avglist.Count() > 1000)
-                            {
-                                avglist.RemoveAt(0);
-                            }
-                            
-                        }
-
-                        //图标类型：线
-                        waveform.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-                        // 线的颜色为蓝色            
-                        waveform.Series[0].Color = Color.Blue;
-
-
-
-                        waveform.ChartAreas[0].AxisY.Maximum = 260;// Y轴最大值
-                        waveform.ChartAreas[0].AxisX.Maximum = 1000;
-                        waveform.Legends[0].Enabled = false;// 隐藏图示(Series 标注)
-
+                        //waveform.Series[0].Points.Clear();
+                        waveform.Series[0].Points.RemoveAt(0);
+                        BluetoothConnection.DiscardInBuffer();
                     }
 
+                    int max1 = data[i + 10];
+                    int max2 = data[i + 11];
+                    int temp1 = data[i + 14];
+                    int temp2 = data[i + 15];
+                    int hum1 = data[i + 16];
+                    int hum2 = data[i + 17];
 
+                    //显示最大值
+                    this.labelMax.Text = max1 + "." + max2;
+                    
+                    //显示平均值
+                    if (avg >= 255)
+                    {
+                        labelAvg.Text = avg1.ToString();
+                    }
+                    else
+                    {
+                        this.labelAvg.Text = avg.ToString();
+                    }
+                    if (avg < 70)
+                    {
+                        this.labelAvg.ForeColor = Color.Green;
+                    }
+                    else
+                    {
+                        this.labelAvg.ForeColor = Color.Red;
+                        this.labelAvg.Font = new Font("宋体", 16);
+                    }
+                    this.labelTemp.Text = temp1 + "." + temp2;//显示温度
+                    this.labelHum.Text = hum1 + "." + hum2;//显示湿度
+                    
+                    //图标类型：线
+                    //waveform.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+                    // 线的颜色为蓝色            
+                    //waveform.Series[0].Color = Color.Blue;
+                    //waveform.ChartAreas[0].AxisY.Maximum = 260;// Y轴最大值
+                    //waveform.ChartAreas[0].AxisX.Maximum = 1000;
 
                 }
-
-                //if (i == 990)
-                //{
-                //    i = 0;
-                //    data = new byte[1013];
-                //    BluetoothConnection.Read(data, 0, 1013);
-                //}
+                //GC.Collect();
+                BluetoothConnection.DiscardInBuffer();
             }
         }
         #endregion
@@ -274,11 +210,15 @@ namespace Hello
         // 断开需关闭程序后重新启动
         public void disconnect_Click(object sender, EventArgs e)
         {
-            BluetoothConnection.Close();
-            BluetoothConnection.Dispose();
-            BluetoothConnection = null;
-            GC.Collect();
-            link.Enabled = true;//断开后重置连接按钮
+            if (BluetoothConnection.IsOpen == true)
+            {
+                my.Close();
+                BluetoothConnection.Close();
+                BluetoothConnection.Dispose();
+                BluetoothConnection = null;
+                GC.Collect();
+                link.Enabled = true;//断开后重置连接按钮
+            }
             MessageBox.Show("蓝牙已断开！", "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
@@ -353,40 +293,37 @@ namespace Hello
         public void save_Click(object sender, EventArgs e)
         {
             Thread.Sleep(1000);
-            int length = BluetoothConnection.ReadByte();
-            //int length = BluetoothConnection.ReadByte();
-            //length += BluetoothConnection.ReadByte() * 256;
-            MessageBox.Show(length.ToString(), "提示", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            BluetoothReceviedData = DateTime.Now.ToLongDateString() + "\r\n";
+            int length = BluetoothConnection.BytesToRead;
             int lennum = 100;
-            byte[] content = new byte[lennum];
+            byte[] content = new byte[length];
+            BluetoothConnection.Read(content, 0, length);
+            string data = string.Join(" ", content);
+            string rdata = data.Replace("255 255 255", "-");
+            rdata = rdata.Trim();
+            string[] bdata = rdata.Split('-');
             if (content[0] == 255 && content[1] == 255 && content[2] == 255)
             {
                 byte len1 = content[6];
                 byte len2 = content[7];
                 if (len1 + len2 != 14)
                 {
-                    int qian = len1 / 16;
-                    int bai = len1 % 16;
+                    int qian = len1 / 10;
+                    int bai = len1 % 10;
                     int shi = len2 / 10;
                     int ge = len2 % 10;//124
                     if (len1 == 0)
                     {
                         lennum = len2;
                     }
-                    else if (len1 > 0 && len1 <= 15)
+                    else
                     {
-                        lennum = len1 * 16 * 16 + shi * 16 + ge;
-                    }
-                    else if (len1 > 15)
-                    {
-                        lennum = qian * 16 * 16 * 16 + bai * 16 * 16 + shi * 16 + ge;
+                        lennum = qian * 16 << 8 + bai * 16 << 4 + shi * 16 + ge;
                     }
                 }
             }
 
-            byte[] data = new byte[lennum];
-            BluetoothConnection.Read(data, 0, 1000);
+            //byte[] data = new byte[lennum];
+            //BluetoothConnection.Read(data, 0, 1000);
             for (int i = 0; i < 1000; i++)
             {
 
@@ -470,6 +407,5 @@ namespace Hello
             }
             return crc;
         }
-
     }
 }

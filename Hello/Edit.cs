@@ -128,9 +128,19 @@ namespace Hello
         //删除
         private void delete_Click(object sender,EventArgs e)
         {
+            if (txtID.Text.Equals(""))
+            {
+                MessageBox.Show("请先选择数据");
+            }
+            else
             if (MessageBox.Show("确定要删除此行信息吗？", "提示", MessageBoxButtons.OKCancel) == DialogResult.OK)
             {
-                
+                object oid = dataGridView1.SelectedRows[0].Cells[0].Value;
+                string sql = "delete from Datas where id =" + oid;
+                SQLiteCommand cmd = new SQLiteCommand(sql, conn);
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("删除成功！");
+                RefreshData();
             }
         }
 
@@ -162,10 +172,17 @@ namespace Hello
         {
             object sid = dataGridView1.SelectedRows[0].Cells[0].Value;
             conn.Open();
-            string sql = "update Datas set inspector = '" + txtInspector.Text + "', lineName = '" + txtLineName.Text + "', towerNum = '" + txtTowerNum.Text + "', deviceState = '" + comboBox2.Text + "',deviceType = '" + comboBox1.Text + "', frequency = '" + txtFrequency.Text + "', distance = '" + txtDistance.Text + "', temperature = '" + txtTemp.Text + "', humidity = '" + txtHum.Text + "', longitude = '" + txtLongitude.Text + "', latitude = '" + txtLatitude.Text + "', maxDB = '" + txtMax.Text + "', avgDB = '" + txtAvg.Text + "', defect = '" + txtDefect.Text + "'" + " where id = " + sid;
-            SQLiteCommand command = new SQLiteCommand(sql, conn);
-            command.ExecuteNonQuery();
-            MessageBox.Show("修改成功！");
+            if (txtID.Text.Equals(""))
+            {
+                MessageBox.Show("请先选中数据");
+            }
+            else
+            {
+                string sql = "update Datas set inspector = '" + txtInspector.Text + "', lineName = '" + txtLineName.Text + "', towerNum = '" + txtTowerNum.Text + "', deviceState = '" + comboBox2.Text + "',deviceType = '" + comboBox1.Text + "', frequency = '" + txtFrequency.Text + "', distance = '" + txtDistance.Text + "', temperature = '" + txtTemp.Text + "', humidity = '" + txtHum.Text + "', longitude = '" + txtLongitude.Text + "', latitude = '" + txtLatitude.Text + "', maxDB = '" + txtMax.Text + "', avgDB = '" + txtAvg.Text + "', defect = '" + txtDefect.Text + "'" + " where id = " + sid;
+                SQLiteCommand command = new SQLiteCommand(sql, conn);
+                command.ExecuteNonQuery();
+                MessageBox.Show("修改成功！");
+            }
             RefreshData();
             conn.Close();
             
